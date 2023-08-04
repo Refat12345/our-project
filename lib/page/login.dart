@@ -5,7 +5,7 @@ import 'package:untitled1/bloc/login/login_cubit.dart';
 import 'package:untitled1/bloc/login/login_state.dart';
 import 'package:untitled1/network/local/cache.dart';
 import 'package:untitled1/page/register.dart';
-import 'package:untitled1/page/user/cart.dart';
+
 import 'package:untitled1/page/user/product_details.dart';
 import '../component/helper.dart';
 import '../component/widget.dart';
@@ -17,6 +17,8 @@ class Login extends StatelessWidget {
   final TextEditingController phoneNumber = TextEditingController();
   final TextEditingController password = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final phoneFromKey=GlobalKey<FormFieldState>();
+  final passwordFromKey=GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +74,18 @@ class Login extends StatelessWidget {
                           height: constrain.maxHeight / 70,
                         ),
                         Filed(
+                            formKey: phoneFromKey,
                             controller: phoneNumber,
                             hintText: "أدخل رقم الهاتف",
                             height: constrain.maxHeight,
-                            login: true),
+                            login: true,
+                            onChange: (value)
+                            {
+                              if(value.isNotEmpty)
+                              {
+                                phoneFromKey.currentState!.validate();
+                              }
+                            }),
                         SizedBox(
                           height: constrain.maxHeight / 35,
                         ),
@@ -91,10 +101,19 @@ class Login extends StatelessWidget {
                           height: heightScreen / 70,
                         ),
                         Filed(
+                            formKey: passwordFromKey,
                             controller: password,
                             hintText: "أدخل كلمة المرور",
                             height: constrain.maxHeight,
-                            login: true),
+                            login: true,
+                            onChange: (value)
+                            {
+                              if(value.isNotEmpty)
+                              {
+                                passwordFromKey.currentState!.validate();
+                              }
+                            },
+                            ),
                         SizedBox(
                           height: constrain.maxHeight / 30,
                         ),
@@ -146,7 +165,8 @@ class Login extends StatelessWidget {
                   }, listener: (context, state) {
                     if (state is SuccessState) {
                       if (state.loginModel.status == true) {
-                        CacheHelper.saveData(key: "token", value: state.loginModel.token);
+                        CacheHelper.saveData(
+                            key: "token", value: state.loginModel.token);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
