@@ -2,34 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:untitled1/theme/colors.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../bloc/login/login_cubit.dart';
 import '../bloc/login/login_state.dart';
-import '../theme/colors.dart';
 
 @immutable
 class Filed extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final double? height;
+  final ValueChanged<String>? onChange;
   final bool? login;
+  final GlobalKey<FormFieldState>? formKey;
 
-  Filed(
-      {
-      super.key,
-      required this.controller,
-      required this.hintText,
-      this.height,
-      required this.login
-      });
-
-  final formKey = GlobalKey<FormState>();
+  Filed({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    this.height,
+    required this.login,
+    this.onChange,
+    this.formKey,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height! / 16,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5), color: textFieldBg),
       child: Center(
@@ -41,10 +41,28 @@ class Filed extends StatelessWidget {
                 listener: (context, state) {},
                 builder: (context, state) {
                   return TextFormField(
+                    key: formKey,
+                    onChanged: onChange,
                     textDirection: TextDirection.rtl,
                     textAlign: TextAlign.right,
                     controller: controller,
                     validator: (String? value) {
+                      if(login!=null&&login!)
+                      {
+                        if (hintText == "أدخل رقم الهاتف"){
+                      if (value!.isEmpty) {
+                      return 'من فضلك أدخل رقم الهاتف';
+                      }
+
+                        }else
+                        {
+                          if(value!.isEmpty)
+                          {
+                            return "من فضلك أدخل كلمة المرور";
+                          }
+                        }
+                      }
+                      else{
                       if (hintText == "أدخل رقم الهاتف") {
                         if (value!.isNotEmpty && value.length != 10) {
                           return 'من فضلك أدخل 10 أرقام فقط';
@@ -54,16 +72,19 @@ class Filed extends StatelessWidget {
                       } else if (hintText == "أدخل 8 أحرف على الأقل" ||
                           hintText == "أدخل تأكيد كلمة المرور" ||
                           hintText == "أدخل كلمة المرور") {
-                        if (value!.isNotEmpty && value.length < 8) {
-                          return 'من فضلك أدخل 8 أحرف على الأقل';
-                        } else if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'من فضلك أدخل كلمة المرور';
+                        } else if (!value.contains(RegExp(r'[a-z]')) ||
+                            !value.contains(RegExp(r'[A-Z]'))) {
+                          return 'يجب أن يحتوي النص على حرف صغير وحرف كبير على الأقل';
+                        } else if (value.isNotEmpty && value.length < 8) {
+                          return 'من فضلك أدخل 8 أحرف على الأقل';
                         }
                       } else {
                         if (value!.isEmpty) {
                           return "من فضلك أدخل اسم المستخدم";
                         }
-                      }
+                      }}
                       return null;
                     },
                     style: TextStyle(
