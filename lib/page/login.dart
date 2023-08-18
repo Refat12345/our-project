@@ -5,7 +5,7 @@ import 'package:untitled1/bloc/login/login_cubit.dart';
 import 'package:untitled1/bloc/login/login_state.dart';
 import 'package:untitled1/network/local/cache.dart';
 import 'package:untitled1/page/register.dart';
-
+import 'package:untitled1/page/user/cart.dart';
 import 'package:untitled1/page/user/product_details.dart';
 import '../component/helper.dart';
 import '../component/widget.dart';
@@ -17,8 +17,8 @@ class Login extends StatelessWidget {
   final TextEditingController phoneNumber = TextEditingController();
   final TextEditingController password = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final phoneFromKey=GlobalKey<FormFieldState>();
-  final passwordFromKey=GlobalKey<FormFieldState>();
+  final phoneFromKey = GlobalKey<FormFieldState>();
+  final passwordFromKey = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,9 @@ class Login extends StatelessWidget {
                             phoneNumber: phoneNumber.text,
                             password: password.text);
                       }
+
                     }
+
 
                     return Column(
                       textDirection: TextDirection.rtl,
@@ -79,10 +81,8 @@ class Login extends StatelessWidget {
                             hintText: "أدخل رقم الهاتف",
                             height: constrain.maxHeight,
                             login: true,
-                            onChange: (value)
-                            {
-                              if(value.isNotEmpty)
-                              {
+                            onChange: (value) {
+                              if (value.isNotEmpty) {
                                 phoneFromKey.currentState!.validate();
                               }
                             }),
@@ -101,19 +101,17 @@ class Login extends StatelessWidget {
                           height: heightScreen / 70,
                         ),
                         Filed(
-                            formKey: passwordFromKey,
-                            controller: password,
-                            hintText: "أدخل كلمة المرور",
-                            height: constrain.maxHeight,
-                            login: true,
-                            onChange: (value)
-                            {
-                              if(value.isNotEmpty)
-                              {
-                                passwordFromKey.currentState!.validate();
-                              }
-                            },
-                            ),
+                          formKey: passwordFromKey,
+                          controller: password,
+                          hintText: "أدخل كلمة المرور",
+                          height: constrain.maxHeight,
+                          login: true,
+                          onChange: (value) {
+                            if (value.isNotEmpty) {
+                              passwordFromKey.currentState!.validate();
+                            }
+                          },
+                        ),
                         SizedBox(
                           height: constrain.maxHeight / 30,
                         ),
@@ -157,7 +155,7 @@ class Login extends StatelessWidget {
                                       color: primary,
                                       fontFamily: "Cairo"),
                                   textAlign: TextAlign.right,
-                                ))
+                                )),
                           ],
                         )
                       ],
@@ -167,12 +165,13 @@ class Login extends StatelessWidget {
                       if (state.loginModel.status == true) {
                         CacheHelper.saveData(
                             key: "token", value: state.loginModel.token);
+                        CacheHelper.saveData(key: "id", value: state.loginModel.data!.id);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ProductDetails()));
+                                builder: (context) =>  Cart()));
                       } else {
-                        flutterToast(state.loginModel.message, "error");
+                        flutterToast(state.loginModel.message, "error",constrain.maxHeight,"notPin");
                       }
                     }
                   }),
