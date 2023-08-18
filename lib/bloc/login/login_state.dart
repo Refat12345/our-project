@@ -8,9 +8,11 @@ class LoadingState extends LoginState {}
 
 class SuccessState extends LoginState {
   final LoginModel loginModel;
+
   SuccessState(this.loginModel);
 }
 
 class ErrorState extends LoginState {}
 
 class PasswordState extends LoginState {}
+

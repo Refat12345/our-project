@@ -1,9 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:untitled1/bloc/login/login_state.dart';
 import 'package:untitled1/model/login/login_model.dart';
+
 import 'package:untitled1/theme/colors.dart';
 
 import '../../network/remote/http.dart';
@@ -15,9 +16,9 @@ class LoginCubit extends Cubit<LoginState> {
 
   LoginModel? loginModel;
 
-  void login({required phoneNumber, required password}) {
+  Future login({required phoneNumber, required password})async {
     emit(LoadingState());
-    HttpHelper.postData(
+   await HttpHelper.postData(
             url: "login",
             data: {"phone_number": phoneNumber, "password": password})
         .then((value) {
@@ -41,14 +42,16 @@ class LoginCubit extends Cubit<LoginState> {
     passwordICon = password
         ? Icon(
             Icons.visibility_outlined,
-            size: height / 26,
+            size: height / 33,
             color: primary,
           )
         : Icon(
             Icons.visibility_off_outlined,
-            size: height / 26,
+            size: height / 33,
             color: primary,
           );
     emit(PasswordState());
   }
+
+
 }
