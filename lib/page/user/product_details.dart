@@ -1,241 +1,349 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/bloc/product/add_product_to_cart/add_product_to_cart_cubit.dart';
+import 'package:untitled1/component/helper.dart';
+import 'package:untitled1/model/product/product_details.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import '../../bloc/product/add_product_to_cart/add_product_to_cart_state.dart';
+import '../../bloc/product/product_details/product_details_cubit.dart';
+import '../../bloc/product/product_details/product_details_state.dart';
 import '../../theme/colors.dart';
 
 class ProductDetails extends StatelessWidget {
-  const ProductDetails({super.key});
+  int id;
+
+  ProductDetails(this.id, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-        bottomNavigationBar: getBottom(width, height),
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: green, size: width / 15),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          toolbarHeight: height / 15,
-          title: const Text("تفاصيل المنتج"),
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(Iconsax.menu_board, color: green))
-          ],
-          centerTitle: true,
-          titleTextStyle: TextStyle(
-              fontWeight: FontWeight.w800,
-              fontFamily: "Cairo",
-              fontSize: width / 18,
-              color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: EdgeInsets.only(top: height / 100, left: 10, right: 10),
-          child: LayoutBuilder(
-              builder: (context, constrain) => SingleChildScrollView(
-                    child: Column(
-                      textDirection: TextDirection.rtl,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(constrain.maxWidth / 55),
-                          child: Image(
-                              width: double.infinity,
-                              height: constrain.maxHeight / 2,
-                              fit: BoxFit.fill,
-                              image: const NetworkImage(
-                                  "https://static.arrajol.com/styles/800x533/public/2021-08/11111_0.jpg")),
-                        ),
-                        SizedBox(
-                          height: constrain.maxHeight / 30,
-                        ),
-                        Row(
-                          textDirection: TextDirection.rtl,
-                          children: [
-                            Text(
-                              "همبرغر لحمة",
-                              style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: constrain.maxWidth / 15,
-                                  color: green),
-                            ),
-                            const Spacer(),
-                            Container(
-                              height: constrain.maxHeight / 31.5,
-                              width: constrain.maxWidth / 7.3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: green.withOpacity(0.7)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(1.5),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+    int?  isFavorite=0;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    return BlocProvider(
+        create: (context) =>
+        ProductDetailsCubit()
+          ..getProductDetails(id: id),
+        child: BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
+          listener: (context, state) {
+            if(state is SuccessState)
+            {
+              isFavorite=state.productDetailsModel.productInfo!.inFavorite;
+            }
+          },
+          builder: (context, state) {
+
+            ProductDetailsModel? productDetailsModel =
+                ProductDetailsCubit
+                    .get(context)
+                    .productDetailsModel;
+
+            return ProductDetailsCubit
+                .get(context)
+                .productDetailsModel != null
+                ? Scaffold(
+                bottomNavigationBar: getBottom(width, height, context,isFavorite!),
+                appBar: AppBar(
+                  flexibleSpace: Image(
+                      width: double.infinity,
+                      height: height / 2.5,
+                      fit: BoxFit.fill,
+                      image:  NetworkImage(
+                          EndPoint.imageUrl+productDetailsModel!.productInfo!.pictures!.first)),
+                  iconTheme: IconThemeData(color: green, size: width / 15),
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  toolbarHeight: height / 2.75,
+                ),
+                backgroundColor: Colors.white,
+                body: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: LayoutBuilder(
+                      builder: (context, constrain) =>
+                          SingleChildScrollView(
+                            child: Column(
+                              textDirection: TextDirection.rtl,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: constrain.maxHeight / 80,
+                                ),
+                                Row(
+                                  textDirection: TextDirection.rtl,
                                   children: [
                                     Text(
-                                      "4.5 ",
+                                      "${productDetailsModel.productInfo!
+                                          .name}",
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: constrain.maxWidth / 50 +
-                                              constrain.maxHeight / 75),
+                                          fontFamily: "Cairo",
+                                          fontSize: constrain.maxWidth / 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700),
+                                    ), // Product Name
+                                    const Spacer(),
+                                    ZoomTapAnimation(
+                                      onTap: () {
+                                        if (ProductDetailsCubit
+                                            .get(context)
+                                            .count <ProductDetailsCubit.get(context).quantity) {
+                                          ProductDetailsCubit.get(context)
+                                              .changeCount('add');
+                                        }
+                                      },
+                                      child: Container(
+                                          height: height < 830
+                                              ? constrain.maxHeight * 0.05 +
+                                              constrain.maxWidth * 0.03
+                                              : constrain.maxHeight / 14.5,
+                                          width: constrain.maxWidth *
+                                              0.027 +
+                                              constrain.maxHeight * 0.05,
+                                          decoration: BoxDecoration(
+                                              color: green,
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  20)),
+                                          child: Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                            size: constrain.maxWidth / 19,
+                                          )),
                                     ),
-                                    Icon(
-                                      Icons.star,
-                                      size: constrain.maxWidth / 55 +
-                                          constrain.maxHeight / 65,
-                                      color: Colors.yellow,
-                                    )
+                                    SizedBox(
+                                      width: constrain.maxWidth / 100,
+                                    ),
+                                    Text(
+                                      "${ProductDetailsCubit
+                                          .get(context)
+                                          .count}",
+                                      style: TextStyle(
+                                          fontSize:
+                                          constrain.maxWidth * 0.06),
+                                    ), // Quantity Required
+                                    SizedBox(
+                                      width: constrain.maxWidth / 100,
+                                    ),
+                                    ZoomTapAnimation(
+                                      onTap: () {
+                                        if (ProductDetailsCubit
+                                            .get(context)
+                                            .count > 1) {
+                                          ProductDetailsCubit.get(context)
+                                              .changeCount('minus');
+                                        }
+                                      },
+                                      child: Container(
+                                          height: height < 830
+                                              ? constrain.maxHeight * 0.05 +
+                                              constrain.maxWidth * 0.03
+                                              : constrain.maxHeight / 14.5,
+                                          width: constrain.maxWidth *
+                                              0.027 +
+                                              constrain.maxHeight * 0.05,
+                                          decoration: BoxDecoration(
+                                              color: green,
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  20)),
+                                          child: Icon(
+                                            Icons.remove,
+                                            color: Colors.white,
+                                            size: constrain.maxWidth / 19,
+                                          )),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: constrain.maxHeight / 30,
-                        ),
-                        Row(
-                          textDirection: TextDirection.rtl,
-                          children: [
-                            ZoomTapAnimation(
-                              child: Container(
-                                  height: constrain.maxHeight / 22,
-                                  width: constrain.maxWidth / 13,
-                                  decoration: BoxDecoration(
-                                      color: green,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: constrain.maxWidth / 19,
-                                  )),
+                                SizedBox(
+                                  height: constrain.maxHeight / 30,
+                                ),
+                                Row(
+                                  textDirection: TextDirection.rtl,
+                                  children: [
+                                    const Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      '${productDetailsModel.productInfo!
+                                          .price} ل.س ',
+                                      style: TextStyle(
+                                          color: secondaryColor,
+                                          fontSize: constrain.maxWidth *
+                                              0.03 +
+                                              constrain.maxHeight * 0.02,
+                                          fontWeight: FontWeight.w900),
+                                      textDirection: TextDirection.rtl,
+                                    )
+                                  ],
+                                ), //Rating
+                                SizedBox(
+                                  height: constrain.maxHeight / 20,
+                                ),
+                                Text(
+                                  "${productDetailsModel.productInfo!
+                                      .description}",
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(
+                                      fontFamily: "Cairo",
+                                      fontSize: constrain.maxWidth * 0.03 +
+                                          constrain.maxHeight * 0.01),
+                                ), // the description
+                                SizedBox(
+                                  height: constrain.maxHeight / 15,
+                                ),
+                                Row(
+                                  textDirection: TextDirection.rtl,
+                                  children: [
+                                    Text(
+                                      "الكمية المتبقية:",
+                                      style: TextStyle(
+                                          fontFamily: "Cairo",
+                                          fontSize:
+                                          constrain.maxWidth / 35 +
+                                              constrain.maxHeight / 55,
+                                          fontWeight: FontWeight.w700),
+                                      textDirection: TextDirection.rtl,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "${productDetailsModel.productInfo!
+                                          .quantity}",
+                                      style: TextStyle(
+                                          fontFamily: "Cairo",
+                                          fontSize: constrain.maxWidth *
+                                              0.03 +
+                                              constrain.maxHeight * 0.02,
+                                          color: green.withOpacity(0.9)),
+                                    )
+                                  ],
+                                ) // The remaining quantity
+                              ],
                             ),
-                            SizedBox(
-                              width: constrain.maxWidth / 100,
-                            ),
-                            Text(
-                              "1",
-                              style:
-                                  TextStyle(fontSize: constrain.maxWidth / 23),
-                            ),
-                            SizedBox(
-                              width: constrain.maxWidth / 100,
-                            ),
-                            ZoomTapAnimation(
-                              child: Container(
-                                  height: constrain.maxHeight / 22,
-                                  width: constrain.maxWidth / 13,
-                                  decoration: BoxDecoration(
-                                      color: green,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: Colors.white,
-                                    size: constrain.maxWidth / 19,
-                                  )),
-                            ),
-                            const Spacer(),
-                            Text(
-                              '27000 ل.س',
-                              style: TextStyle(
-                                  color: secondaryColor,
-                                  fontSize: constrain.maxWidth / 50 +
-                                      constrain.maxHeight / 70,
-                                  fontWeight: FontWeight.w900),
-                              textDirection: TextDirection.rtl,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: constrain.maxHeight / 30,
-                        ),
-                        Text(
-                          "أكلة كثيراً ما تعد من الوجبات السريعة وقد انتشرت بسرعة في كل أنحاء العالم حتى أصبحت من وجبات العولمة، تتكون من ساندويتش من اللحم أو الدجاج بالإضافة إلى الكاتشاب والمايونيز والخضار",
-                          textDirection: TextDirection.rtl,
-                          style: TextStyle(
-                              fontFamily: "Cairo",
-                              fontSize: constrain.maxWidth / 55 +
-                                  constrain.maxHeight / 75),
-                        ),
-                        SizedBox(
-                          height: constrain.maxHeight / 150,
-                        ),
-                        Row(
-                          textDirection: TextDirection.rtl,
-                          children: [
-                            Text(
-                              "الكمية المتبقية:",
-                              style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: constrain.maxWidth / 35 +
-                                      constrain.maxHeight / 55,
-                                  fontWeight: FontWeight.w700),
-                              textDirection: TextDirection.rtl,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "كثير",
-                              style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: constrain.maxWidth / 50 +
-                                      constrain.maxHeight / 75,
-                                  color: green.withOpacity(0.9)),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )),
+                          )),
+                ))
+                : const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ));
   }
 
-  Widget getBottom(width, height) {
+  Widget getBottom(width, height, context,int isFavorite) {
+    double bottomHeight = height < 700 ? 6 : 12;
     return Container(
       height: width >= 600 ? height / 12 : height / 15,
       width: double.infinity,
       decoration: const BoxDecoration(
           border: Border(top: BorderSide(width: 2, color: Colors.white))),
       child: Padding(
-        padding: const EdgeInsets.only(left: 5, right: 15, bottom: 7),
+        padding: EdgeInsets.only(left: 10, right: 10, bottom: bottomHeight),
         child: Row(
           textDirection: TextDirection.rtl,
           children: [
+            BlocProvider(
+                create: (context) => AddProductToCartCubit(),
+                child:
+                BlocConsumer<AddProductToCartCubit, AddProductToCartState>(
+                  listener: (context, state) {
+                    if (state is AddProductToCartSuccessState) {
+                      flutterToast(state.message, "type",
+                          height, "gravity");
+                    }
+                  },
+                  builder: (context, state) {
+                    return ConditionalBuilder(
+                        condition: state is! AddProductToCartLoadingState,
+                        builder: (context) =>
+                            ZoomTapAnimation(
+                              onTap: () {
+                                AddProductToCartCubit.get(context)
+                                    .addProductToCart(
+                                    id: id,
+                                    quantity:
+                                    ProductDetailsCubit
+                                        .get(context)
+                                        .count);
+                              },
+                              child: Container(
+                                height:
+                                width >= 600 ? height / 10 : height / 20,
+                                width: width / 1.25,
+                                decoration: BoxDecoration(
+                                    color: green,
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: Text(
+                                  "إضافة إلى السلة",
+                                  style: TextStyle(
+                                      fontSize: width / 20,
+                                      fontFamily: "Cairo",
+                                      color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                        fallback: (context) =>
+                        const Center(child: CircularProgressIndicator()));
+                  },
+                )),
+            const Spacer(),
             Container(
               height: width >= 600 ? height / 10 : height / 20,
-              width: width / 1.3,
+              width: width / 7.5,
               decoration: BoxDecoration(
-                  color: green, borderRadius: BorderRadius.circular(12)),
-              child: Text(
-                "إضافة إلى السلة",
-                style: TextStyle(
-                    fontSize: width / 20,
-                    fontFamily: "Cairo",
-                    color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Container(
-                  width: width / 7,
-                  height: height / 15,
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(12)),
+                  borderRadius:
+                  BorderRadius.circular(height * 0.002 + width * 0.03),
+                  color: green),
+              child: Center(
                   child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite_border_outlined,
-                      color: Colors.white,
-                      size: width / 30 + height / 50,
-                    ),
-                  )),
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.favorite,
+                        color:isFavorite==0? Colors.white:Colors.red,
+                        size: height * 0.02 + width * 0.02,
+                      ))),
             )
           ],
         ),
