@@ -1,23 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-DeviceType getDeviceType(MediaQueryData mediaQueryData) {
-  Orientation orientation = mediaQueryData.orientation;
-  double width = 0;
-  if (orientation == Orientation.landscape) {
-    width = mediaQueryData.size.height;
-  } else {
-    width = mediaQueryData.size.width;
-  }
-  if (width >= 600) {
-    return DeviceType.tablet;
-  } else {
-    return DeviceType.mobile;
-  }
-}
-
-enum DeviceType { mobile, tablet }
+import 'package:untitled1/theme/colors.dart';
 
 const String icons = "icons/";
 
@@ -25,13 +9,22 @@ getSvgIcon(icon) {
   return SvgPicture.asset(icons + icon);
 }
 
-Future flutterToast(String message, String type) {
+Future flutterToast(dynamic message, String type,double height,String gravity) {
   return Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
+      gravity: gravity=="pin"?ToastGravity.CENTER:ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
+      backgroundColor: type=="error"?Colors.red:green,
       textColor: Colors.white,
-      fontSize: 16.0);
+      fontSize: height*0.027);
 }
+
+
+
+class EndPoint {
+  static String url = "http://192.168.1.105:8000/api/";
+  static String imageUrl="http://192.168.1.105:8000/";
+}
+
+

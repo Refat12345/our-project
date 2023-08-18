@@ -1,12 +1,17 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:untitled1/bloc/cart/view_cart_cubit.dart';
+import 'package:untitled1/component/helper.dart';
 import 'package:untitled1/theme/colors.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
+import '../bloc/cart/view_cart_state.dart';
 import '../bloc/login/login_cubit.dart';
 import '../bloc/login/login_state.dart';
+import '../model/cart/cart_model.dart';
 
 @immutable
 class Filed extends StatelessWidget {
@@ -17,7 +22,7 @@ class Filed extends StatelessWidget {
   final bool? login;
   final GlobalKey<FormFieldState>? formKey;
 
-  Filed({
+  const Filed({
     super.key,
     required this.controller,
     required this.hintText,
@@ -47,44 +52,40 @@ class Filed extends StatelessWidget {
                     textAlign: TextAlign.right,
                     controller: controller,
                     validator: (String? value) {
-                      if(login!=null&&login!)
-                      {
-                        if (hintText == "أدخل رقم الهاتف"){
-                      if (value!.isEmpty) {
-                      return 'من فضلك أدخل رقم الهاتف';
-                      }
-
-                        }else
-                        {
-                          if(value!.isEmpty)
-                          {
+                      if (login != null && login!) {
+                        if (hintText == "أدخل رقم الهاتف") {
+                          if (value!.isEmpty) {
+                            return 'من فضلك أدخل رقم الهاتف';
+                          }
+                        } else {
+                          if (value!.isEmpty) {
                             return "من فضلك أدخل كلمة المرور";
                           }
                         }
-                      }
-                      else{
-                      if (hintText == "أدخل رقم الهاتف") {
-                        if (value!.isNotEmpty && value.length != 10) {
-                          return 'من فضلك أدخل 10 أرقام فقط';
-                        } else if (value.isEmpty) {
-                          return 'من فضلك أدخل رقم الهاتف';
-                        }
-                      } else if (hintText == "أدخل 8 أحرف على الأقل" ||
-                          hintText == "أدخل تأكيد كلمة المرور" ||
-                          hintText == "أدخل كلمة المرور") {
-                        if (value!.isEmpty) {
-                          return 'من فضلك أدخل كلمة المرور';
-                        } else if (!value.contains(RegExp(r'[a-z]')) ||
-                            !value.contains(RegExp(r'[A-Z]'))) {
-                          return 'يجب أن يحتوي النص على حرف صغير وحرف كبير على الأقل';
-                        } else if (value.isNotEmpty && value.length < 8) {
-                          return 'من فضلك أدخل 8 أحرف على الأقل';
-                        }
                       } else {
-                        if (value!.isEmpty) {
-                          return "من فضلك أدخل اسم المستخدم";
+                        if (hintText == "أدخل رقم الهاتف") {
+                          if (value!.isNotEmpty && value.length != 10) {
+                            return 'من فضلك أدخل 10 أرقام فقط';
+                          } else if (value.isEmpty) {
+                            return 'من فضلك أدخل رقم الهاتف';
+                          }
+                        } else if (hintText == "أدخل 8 أحرف على الأقل" ||
+                            hintText == "أدخل تأكيد كلمة المرور" ||
+                            hintText == "أدخل كلمة المرور") {
+                          if (value!.isEmpty) {
+                            return 'من فضلك أدخل كلمة المرور';
+                          } else if (!value.contains(RegExp(r'[a-z]')) ||
+                              !value.contains(RegExp(r'[A-Z]'))) {
+                            return 'يجب أن يحتوي النص على حرف صغير وحرف كبير على الأقل';
+                          } else if (value.isNotEmpty && value.length < 8) {
+                            return 'من فضلك أدخل 8 أحرف على الأقل';
+                          }
+                        } else {
+                          if (value!.isEmpty) {
+                            return "من فضلك أدخل اسم المستخدم";
+                          }
                         }
-                      }}
+                      }
                       return null;
                     },
                     style: TextStyle(
@@ -179,6 +180,7 @@ class PinCode extends StatelessWidget {
   final double maxHeight;
   final double maxWidth;
   final String phoneNumber;
+  final Function()? onTap;
 
   const PinCode(
       {super.key,
@@ -186,14 +188,11 @@ class PinCode extends StatelessWidget {
       required this.pinLength,
       required this.maxHeight,
       required this.maxWidth,
-      required this.phoneNumber});
+      required this.phoneNumber,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    onTap() {
-      if (true) {}
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -227,8 +226,8 @@ class PinCode extends StatelessWidget {
           hasTextBorderColor: Colors.white,
           highlightPinBoxColor: Colors.black.withOpacity(1),
           maxLength: pinLength,
-          pinBoxWidth: pinLength == 4 ? maxWidth / 7.8 : maxWidth / 8.2,
-          pinBoxHeight: maxHeight / 11,
+          pinBoxWidth: pinLength == 4 ? maxWidth / 6.5 : maxWidth / 8.2,
+          pinBoxHeight: maxHeight / 12,
           wrapAlignment: WrapAlignment.spaceAround,
           pinBoxDecoration: ProvidedPinBoxDecoration.defaultPinBoxDecoration,
           pinTextStyle:
@@ -247,7 +246,7 @@ class PinCode extends StatelessWidget {
         ),
         Bottom(
           text: "ارسال الرمز",
-          onTap: onTap,
+          onTap: onTap!,
           height: maxHeight,
         )
       ],
@@ -256,109 +255,137 @@ class PinCode extends StatelessWidget {
 }
 
 class ProductCart extends StatelessWidget {
-  const ProductCart({super.key});
 
+  double height, width;
+  CartItems cartItems;
+  BuildContext context1;
+  CartModel cartModel;
+  CartState ?state;
+
+
+  ProductCart(this.height,this.width,this.cartItems,this.context1,this.cartModel ,this.state,{super.key});
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (context, constrain) => Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => Card(
-                      elevation: 1.5,
-                      shadowColor: green,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      color: Colors.white,
-                      child: Row(textDirection: TextDirection.rtl, children: [
-                        Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 7.0, vertical: 5),
-                            child: SizedBox(
-                              width: constrain.maxWidth / 5,
-                              height: constrain.maxHeight / 7.5,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    constrain.maxWidth / 55),
-                                child: const Image(
-                                    fit: BoxFit.fill,
-                                    image: NetworkImage(
-                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJJr9-YJNbc-_Dfok1RnPurKqhXNcwsEvJvvoaUllpZQ_PBZVse00sPv-p7tcDZEpYz7g&usqp=CAU")),
-                              ),
-                            )),
-                        SizedBox(
-                          width: constrain.maxWidth / 40,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'بيتزا عمو حسن',
-                              style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: constrain.maxWidth / 25),
-                            ),
-                            SizedBox(
-                              height: constrain.maxHeight / 60,
-                            ),
-                            Text(
-                              "350 ل.س",
-                              style: TextStyle(
-                                  fontSize: constrain.maxWidth / 28,
-                                  color: green),
-                              textDirection: TextDirection.rtl,
-                            )
-                          ],
-                        ),
-                        const Spacer(),
-                        ZoomTapAnimation(
-                          child: Container(
-                              height: constrain.maxHeight / 22,
-                              width: constrain.maxWidth / 17,
-                              decoration: BoxDecoration(
-                                  color: green,
-                                  borderRadius: BorderRadius.circular(3)),
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: constrain.maxWidth / 19,
-                              )),
-                        ),
-                        SizedBox(
-                          width: constrain.maxWidth / 100,
-                        ),
-                        Text(
-                          "1",
-                          style: TextStyle(fontSize: constrain.maxWidth / 23),
-                        ),
-                        SizedBox(
-                          width: constrain.maxWidth / 100,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: ZoomTapAnimation(
-                            child: Container(
-                                height: constrain.maxHeight / 22,
-                                width: constrain.maxWidth / 17,
-                                decoration: BoxDecoration(
-                                    color: green,
-                                    borderRadius: BorderRadius.circular(3)),
-                                child: Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                  size: constrain.maxWidth / 19,
-                                )),
-                          ),
-                        ),
-                      ])),
-                  separatorBuilder: (context, index) => SizedBox(
-                        height: constrain.maxHeight / 40,
-                      ),
-                  itemCount: 5),
-            ));
+var price=double.parse(cartItems.productPrice!);
+
+    return Card(
+        elevation: 1.5,
+        shadowColor: green,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        color: Colors.white,
+        child: Row(textDirection: TextDirection.rtl, children: [
+          Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 7.0, vertical: 5),
+              child: SizedBox(
+                width: width / 5,
+                height: height / 7.5,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      width / 55),
+                  child:  Image(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(EndPoint.imageUrl+cartItems.productPhoto!)),
+                ),
+              )),
+          SizedBox(
+            width: width / 40,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                "${cartItems.productName}",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: "Cairo",
+                    fontSize: width / 25),
+              ),
+              SizedBox(
+                height: height / 60,
+              ),
+              Text(
+                "${price * cartItems.quantity!} ل.س ",
+                style: TextStyle(
+                    fontSize: width / 28,
+                    color: green),
+                textDirection: TextDirection.rtl,
+              )
+            ],
+          ),
+          const Spacer(),
+           Padding(
+             padding:  EdgeInsets.only(top: width*0.015+height*0.015),
+             child: Row(
+
+               children: [
+                 ConditionalBuilder(
+                     condition: state is !DeleteProductLoadingState,
+                     builder: (context)=>IconButton(
+                       onPressed: (){
+                         CartCubit.get(context1).deleteProductFromCart(id: cartItems.productId);
+                         CartCubit.get(context1).prints(cartModel);
+                       },icon: Icon(Icons.delete_outline,size: width*0.022+height*0.022,color: green,),),
+                     fallback: (context)=>const Center(child: CircularProgressIndicator(),)),
+                 ZoomTapAnimation(
+                   onTap: ()
+                   {
+                     print('a');
+                     CartCubit.get(context1).changeQuantity("add",cartItems,cartModel);
+                     CartCubit.get(context).updateProductQuantityInCart(id: cartItems.productId, quantity: cartItems.quantity);
+                   },
+                   child: Container(
+                       height: height/ 22,
+                       width: width/ 17,
+                       decoration: BoxDecoration(
+                           color: green,
+                           borderRadius: BorderRadius.circular(3)),
+                       child: Icon(
+                         Icons.add,
+                         color: Colors.white,
+                         size: width/ 19,
+                       )),
+                 ),
+                 SizedBox(
+                   width: width/ 100,
+                 ),
+                 Text(
+                   "${cartItems.quantity}",
+                   style: TextStyle(fontSize: width / 23),
+                 ),
+                 SizedBox(
+                   width:width / 100,
+                 ),
+                 ZoomTapAnimation(
+                   onTap: ()
+                   {
+                     CartCubit.get(context1).changeQuantity("minus",cartItems,cartModel);
+                     CartCubit.get(context).updateProductQuantityInCart(id: cartItems.productId, quantity: cartItems.quantity);
+                   },
+                   child: Container(
+                       height: height / 22,
+                       width: width / 17,
+                       decoration: BoxDecoration(
+                           color: green,
+                           borderRadius: BorderRadius.circular(3)),
+                       child: Icon(
+                         Icons.remove,
+                         color: Colors.white,
+                         size: width / 19,
+                       )),
+                 ),
+
+                ],
+             ),
+           )
+        ]));
   }
 }
+
+
+
