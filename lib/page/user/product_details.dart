@@ -1,19 +1,20 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/product/add_product_to_cart/add_product_to_cart_cubit.dart';
-import 'package:untitled1/component/helper.dart';
-import 'package:untitled1/model/product/product_details.dart';
+
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import '../../bloc/product/add_product_to_cart/add_product_to_cart_cubit.dart';
 import '../../bloc/product/add_product_to_cart/add_product_to_cart_state.dart';
 import '../../bloc/product/product_details/product_details_cubit.dart';
 import '../../bloc/product/product_details/product_details_state.dart';
+import '../../component/helper.dart';
+import '../../model/product_details/product_details.dart';
 import '../../theme/colors.dart';
 
 class ProductDetails extends StatelessWidget {
   int id;
 
-  ProductDetails(this.id, {super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +290,7 @@ class ProductDetails extends StatelessWidget {
                 BlocConsumer<AddProductToCartCubit, AddProductToCartState>(
                   listener: (context, state) {
                     if (state is AddProductToCartSuccessState) {
-                      flutterToast(state.message, "type",
+                      flutterToastt(state.message, "type",
                           height, "gravity");
                     }
                   },
@@ -350,4 +351,8 @@ class ProductDetails extends StatelessWidget {
       ),
     );
   }
+
+  ProductDetails({
+    required this.id,
+  });
 }

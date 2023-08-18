@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/product/add_product_to_cart/add_product_to_cart_state.dart';
-import 'package:untitled1/network/remote/http.dart';
+
+import '../../../network/remote/http.dart';
+import 'add_product_to_cart_state.dart';
+
 
 class AddProductToCartCubit extends Cubit<AddProductToCartState>
 {

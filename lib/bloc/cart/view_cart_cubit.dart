@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
-import 'package:untitled1/bloc/cart/view_cart_state.dart';
-import 'package:untitled1/model/cart/cart_model.dart';
-import 'package:untitled1/network/local/cache.dart';
-import 'package:untitled1/network/remote/http.dart';
+import 'package:project2/bloc/cart/view_cart_state.dart';
+
+import '../../model/cart/cart_model.dart';
+import '../../network/remote/http.dart';
+
 
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(InitialState());

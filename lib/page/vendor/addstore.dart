@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/addstore/addstore_state.dart';
-import '../../textfield.dart';
+import '../../component/helper.dart';
+import '../../model/addstore.dart';
+import '../../component/textfield.dart';
 import '../../bloc/addstore/addstore_cubit.dart';
+import 'package:http/http.dart' as http ;
+import 'dart:io';
 
 class AddStore extends StatelessWidget {
   const AddStore({super.key});
@@ -13,13 +17,18 @@ class AddStore extends StatelessWidget {
   Widget build(BuildContext context) {
     final _nametextcontroller = TextEditingController();
     final _descriptiontextcontroller = TextEditingController();
+    final _phonenumbercontroller = TextEditingController();
+    final _citycontroller = TextEditingController();
     const Color green=Color(0xFF169956);
     const Color secondaryColor = Color(0xFF1F9E67);
     return BlocProvider(
       create: (BuildContext context) => AddstoreCubit(),
       child: BlocConsumer<AddstoreCubit, AddstoreState>(
-        listener: (context, state) {},
         builder: (context, state) {
+          File ?image=AddstoreCubit.get(context).addImage;
+        //  addproductmodel? Addstoremoodel  = AddstoreCubit.get(context).getProductmodel ;
+
+
           var listcubit = AddstoreCubit.get(context);
           const Color green=Color(0xFF169956);
           return Scaffold(
@@ -40,10 +49,24 @@ class AddStore extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset(
-                          'images/shop3.jpg',
-                          fit: BoxFit.contain,
-                          width: double.infinity,
+                        InkWell(
+                            onTap: () {
+                              AddstoreCubit.get(context).getImage();
+                            },
+                            child: Image(
+                                image: image ==null ?
+                                const AssetImage('images/shop3.jpg') : FileImage(image) as ImageProvider<Object>,
+                                fit: BoxFit.contain,
+                                width: double.infinity
+
+                            )
+
+
+                          // Image.asset(
+                          //   'images/shop3.jpg',
+                          //  fit: BoxFit.contain,
+                          // width: double.infinity,
+                          // ),
                         ),
                         const SizedBox(
                           height: 3,
@@ -72,6 +95,29 @@ class AddStore extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: TextFormFieldCompany(controller: _descriptiontextcontroller, hintText: 'ادخل التوصيف '),
+                        ),
+
+                        const Text(
+                          'ادخل رقم الهاتف  ',
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            fontSize: 16,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormFieldCompany(controller: _phonenumbercontroller, hintText: 'ادخل رقم الهاتف '),
+                        ),
+                        const Text(
+                          'ادخل المدينة  ',
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            fontSize: 16,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormFieldCompany(controller: _citycontroller, hintText: 'ادخل المدينة '),
                         ),
                         const Text(
                           'ادخل التصنيف ',
@@ -130,7 +176,16 @@ class AddStore extends StatelessWidget {
                           child: Container(
                             width: constraints.maxWidth * 0.4,
                             child: ElevatedButton.icon(
-                              onPressed: () {},
+                              onPressed: () {
+
+                                AddstoreCubit.get(context).addstore(
+                                  name: _nametextcontroller.text,
+                                  description: _descriptiontextcontroller.text,
+                                  phonenumber: _phonenumbercontroller.text,
+                                  city: _citycontroller.text,
+                                );
+
+                              },
                               icon: const Icon(Icons.add),
                               label: const Text(
                                 'اضافة',
@@ -154,6 +209,16 @@ class AddStore extends StatelessWidget {
             )
           );
         },
+        listener: (context, state) {
+          if(state is SuccessState){
+
+              flutterToast(state.model.message ?? '', "sucess");
+
+
+          }
+
+        },
+
       ),
     );
   }

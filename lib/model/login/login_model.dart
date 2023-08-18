@@ -3,12 +3,15 @@ class LoginModel {
   String? message;
   String? token;
   Data? data;
+  String? type;
 
-  LoginModel({this.status, this.message, this.token, this.data});
+
+  LoginModel({this.status, this.message, this.token, this.data,this.type});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
+    type = json['type'];
     token = json['token'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
@@ -17,6 +20,7 @@ class LoginModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
     data['message'] = message;
+    data['type'] = type;
     data['token'] = token;
     if (this.data != null) {
       data['data'] = this.data!.toJson();

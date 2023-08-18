@@ -1,4 +1,5 @@
-import 'package:untitled1/model/register/register_model.dart';
+
+import '../../model/register/register_model.dart';
 
 abstract class RegisterState {}
 

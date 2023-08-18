@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/register/register_state.dart';
-import 'package:untitled1/model/register/register_model.dart';
-import 'package:untitled1/network/local/cache.dart';
-import 'package:untitled1/network/remote/http.dart';
+import 'package:project2/bloc/register/register_state.dart';
+
+import '../../model/register/register_model.dart';
+import '../../network/local/cache.dart';
+import '../../network/remote/http.dart';
+
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(InitState());

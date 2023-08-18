@@ -1,7 +1,8 @@
+
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:untitled1/component/helper.dart';
 
+import '../../component/helper.dart';
 import '../local/cache.dart';
 
 class HttpHelper {
@@ -37,3 +38,4 @@ class HttpHelper {
     );
   }
 }
+

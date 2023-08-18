@@ -47,6 +47,7 @@ dependencies:
   zoom_tap_animation: ^1.1.0
   pin_code_text_field: ^1.8.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

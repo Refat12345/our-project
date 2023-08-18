@@ -2,34 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:project2/page/user/ProductScreen.dart';
+import 'package:project2/page/user/cart.dart';
+import 'package:project2/page/user/favourite.dart';
 import 'package:project2/page/user/storescreen.dart';
 import 'package:project2/page/vendor/addstore.dart';
-
-
-import 'page/vendor/addproduct.dart';
-
-import 'app_localizations.dart';
 import 'bottomnavbar_cubit.dart';
-import 'settings_page.dart';
-
 class HomePage extends StatelessWidget {
   @override
 
   Widget build(BuildContext context) {
 
 
-    List<Widget> screen = const   [
+    List<Widget> screen =    [
       StoreScreen(),
       ProductScreen(),
-      AddProduct(),
-      AddStore(),
+      FavouriteScreen(),
+      Cart(),
     ];
 
     List<GButton> _tabs = const [
       GButton(icon: Icons.home, text: 'الرئيسية'),
       GButton(icon: Icons.shop_rounded, text: 'المنتجات'),
       GButton(icon: Icons.favorite_outline, text: 'المفضلة'),
-      GButton(icon: Icons.person, text: 'الصفحة الشخصية'),
+      GButton(icon: Icons.shopping_cart, text: 'سلة التسوق'),
     ];
 
     return BlocProvider(
@@ -56,7 +51,7 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.01,),
                       child: GNav(
                         gap: 5,
                         activeColor: Colors.white,
@@ -77,6 +72,7 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 } else {
+                  // Large screen layout
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.1,
                     decoration: BoxDecoration(
@@ -97,7 +93,10 @@ class HomePage extends StatelessWidget {
                         gap: 10,
                         activeColor: Colors.white,
                         iconSize: 24,
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.05,
+                          vertical: MediaQuery.of(context).size.height * 0.02,
+                        ),
                         duration: Duration(milliseconds: 500),
                         tabBackgroundColor: Colors.blue,
                         color: Colors.grey[700],
@@ -119,18 +118,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class Product {
-  final String name;
-  final double price;
-  final String image;
-  final String description;
-
-  Product(
-      {required this.name,
-        required this.price,
-        required this.image,
-        required this.description});
-}
 
 
 

@@ -1,4 +1,3 @@
-import 'package:untitled1/model/cart/cart_model.dart';
 
 abstract class CartState {}
 

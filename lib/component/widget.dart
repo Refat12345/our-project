@@ -1,17 +1,19 @@
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
-import 'package:untitled1/bloc/cart/view_cart_cubit.dart';
-import 'package:untitled1/component/helper.dart';
-import 'package:untitled1/theme/colors.dart';
+
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
+import '../bloc/cart/view_cart_cubit.dart';
 import '../bloc/cart/view_cart_state.dart';
 import '../bloc/login/login_cubit.dart';
 import '../bloc/login/login_state.dart';
 import '../model/cart/cart_model.dart';
+import '../theme/colors.dart';
+import 'helper.dart';
 
 @immutable
 class Filed extends StatelessWidget {
@@ -95,33 +97,33 @@ class Filed extends StatelessWidget {
                         ? TextInputType.number
                         : TextInputType.text,
                     obscureText: hintText == "أدخل كلمة المرور" ||
-                            hintText == "أدخل 8 أحرف على الأقل" ||
-                            hintText == "أدخل تأكيد كلمة المرور"
+                        hintText == "أدخل 8 أحرف على الأقل" ||
+                        hintText == "أدخل تأكيد كلمة المرور"
                         ? !LoginCubit.get(context).password
-                            ? true
-                            : false
+                        ? true
+                        : false
                         : false,
                     decoration: InputDecoration(
                         hintText: hintText,
                         suffixIcon: hintText == "أدخل رقم الهاتف"
                             ? Icon(
-                                Icons.phone_android_outlined,
-                                color: primary,
-                                size: height! / 26,
-                              )
+                          Icons.phone_android_outlined,
+                          color: primary,
+                          size: height! / 26,
+                        )
                             : hintText == "أدخل اسم المستخدم"
-                                ? Icon(Iconsax.user,
-                                    color: primary, size: height! / 26)
-                                : Icon(Iconsax.lock,
-                                    color: primary, size: height! / 26),
+                            ? Icon(Iconsax.user,
+                            color: primary, size: height! / 26)
+                            : Icon(Iconsax.lock,
+                            color: primary, size: height! / 26),
                         prefixIcon: hintText == "أدخل 8 أحرف على الأقل" ||
-                                hintText == "أدخل تأكيد كلمة المرور" ||
-                                hintText == "أدخل كلمة المرور"
+                            hintText == "أدخل تأكيد كلمة المرور" ||
+                            hintText == "أدخل كلمة المرور"
                             ? IconButton(
-                                onPressed: () {
-                                  LoginCubit.get(context).changeIcons(height!);
-                                },
-                                icon: LoginCubit.get(context).passwordICon)
+                            onPressed: () {
+                              LoginCubit.get(context).changeIcons(height!);
+                            },
+                            icon: LoginCubit.get(context).passwordICon)
                             : null,
                         hintStyle: TextStyle(
                             fontSize: login! ? height! / 46 : height! / 49,
@@ -162,7 +164,7 @@ class Bottom extends StatelessWidget {
                 child: Text(text,
                     style: TextStyle(
                         fontSize:
-                            text == "ارسال الرمز" ? height! / 32 : height! / 42,
+                        text == "ارسال الرمز" ? height! / 32 : height! / 42,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -184,12 +186,12 @@ class PinCode extends StatelessWidget {
 
   const PinCode(
       {super.key,
-      required this.controller,
-      required this.pinLength,
-      required this.maxHeight,
-      required this.maxWidth,
-      required this.phoneNumber,
-      this.onTap});
+        required this.controller,
+        required this.pinLength,
+        required this.maxHeight,
+        required this.maxWidth,
+        required this.phoneNumber,
+        this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -231,9 +233,9 @@ class PinCode extends StatelessWidget {
           wrapAlignment: WrapAlignment.spaceAround,
           pinBoxDecoration: ProvidedPinBoxDecoration.defaultPinBoxDecoration,
           pinTextStyle:
-              TextStyle(fontSize: maxHeight / 25, color: Colors.white),
+          TextStyle(fontSize: maxHeight / 25, color: Colors.white),
           pinTextAnimatedSwitcherTransition:
-              ProvidedPinBoxTextAnimation.scalingTransition,
+          ProvidedPinBoxTextAnimation.scalingTransition,
           pinBoxColor: Colors.white,
           pinTextAnimatedSwitcherDuration: const Duration(milliseconds: 300),
           highlightAnimation: true,
@@ -266,7 +268,7 @@ class ProductCart extends StatelessWidget {
   ProductCart(this.height,this.width,this.cartItems,this.context1,this.cartModel ,this.state,{super.key});
   @override
   Widget build(BuildContext context) {
-var price=double.parse(cartItems.productPrice!);
+    var price=double.parse(cartItems.productPrice!);
 
     return Card(
         elevation: 1.5,
@@ -319,70 +321,70 @@ var price=double.parse(cartItems.productPrice!);
             ],
           ),
           const Spacer(),
-           Padding(
-             padding:  EdgeInsets.only(top: width*0.015+height*0.015),
-             child: Row(
+          Padding(
+            padding:  EdgeInsets.only(top: width*0.015+height*0.015),
+            child: Row(
 
-               children: [
-                 ConditionalBuilder(
-                     condition: state is !DeleteProductLoadingState,
-                     builder: (context)=>IconButton(
-                       onPressed: (){
-                         CartCubit.get(context1).deleteProductFromCart(id: cartItems.productId);
-                         CartCubit.get(context1).prints(cartModel);
-                       },icon: Icon(Icons.delete_outline,size: width*0.022+height*0.022,color: green,),),
-                     fallback: (context)=>const Center(child: CircularProgressIndicator(),)),
-                 ZoomTapAnimation(
-                   onTap: ()
-                   {
-                     print('a');
-                     CartCubit.get(context1).changeQuantity("add",cartItems,cartModel);
-                     CartCubit.get(context).updateProductQuantityInCart(id: cartItems.productId, quantity: cartItems.quantity);
-                   },
-                   child: Container(
-                       height: height/ 22,
-                       width: width/ 17,
-                       decoration: BoxDecoration(
-                           color: green,
-                           borderRadius: BorderRadius.circular(3)),
-                       child: Icon(
-                         Icons.add,
-                         color: Colors.white,
-                         size: width/ 19,
-                       )),
-                 ),
-                 SizedBox(
-                   width: width/ 100,
-                 ),
-                 Text(
-                   "${cartItems.quantity}",
-                   style: TextStyle(fontSize: width / 23),
-                 ),
-                 SizedBox(
-                   width:width / 100,
-                 ),
-                 ZoomTapAnimation(
-                   onTap: ()
-                   {
-                     CartCubit.get(context1).changeQuantity("minus",cartItems,cartModel);
-                     CartCubit.get(context).updateProductQuantityInCart(id: cartItems.productId, quantity: cartItems.quantity);
-                   },
-                   child: Container(
-                       height: height / 22,
-                       width: width / 17,
-                       decoration: BoxDecoration(
-                           color: green,
-                           borderRadius: BorderRadius.circular(3)),
-                       child: Icon(
-                         Icons.remove,
-                         color: Colors.white,
-                         size: width / 19,
-                       )),
-                 ),
+              children: [
+                ConditionalBuilder(
+                    condition: state is !DeleteProductLoadingState,
+                    builder: (context)=>IconButton(
+                      onPressed: (){
+                        CartCubit.get(context1).deleteProductFromCart(id: cartItems.productId);
+                        CartCubit.get(context1).prints(cartModel);
+                      },icon: Icon(Icons.delete_outline,size: width*0.022+height*0.022,color: green,),),
+                    fallback: (context)=>const Center(child: CircularProgressIndicator(),)),
+                ZoomTapAnimation(
+                  onTap: ()
+                  {
+                    print('a');
+                    CartCubit.get(context1).changeQuantity("add",cartItems,cartModel);
+                    CartCubit.get(context).updateProductQuantityInCart(id: cartItems.productId, quantity: cartItems.quantity);
+                  },
+                  child: Container(
+                      height: height/ 22,
+                      width: width/ 17,
+                      decoration: BoxDecoration(
+                          color: green,
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: width/ 19,
+                      )),
+                ),
+                SizedBox(
+                  width: width/ 100,
+                ),
+                Text(
+                  "${cartItems.quantity}",
+                  style: TextStyle(fontSize: width / 23),
+                ),
+                SizedBox(
+                  width:width / 100,
+                ),
+                ZoomTapAnimation(
+                  onTap: ()
+                  {
+                    CartCubit.get(context1).changeQuantity("minus",cartItems,cartModel);
+                    CartCubit.get(context).updateProductQuantityInCart(id: cartItems.productId, quantity: cartItems.quantity);
+                  },
+                  child: Container(
+                      height: height / 22,
+                      width: width / 17,
+                      decoration: BoxDecoration(
+                          color: green,
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                        size: width / 19,
+                      )),
+                ),
 
-                ],
-             ),
-           )
+              ],
+            ),
+          )
         ]));
   }
 }

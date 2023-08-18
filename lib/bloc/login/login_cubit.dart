@@ -1,13 +1,14 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:untitled1/bloc/login/login_state.dart';
-import 'package:untitled1/model/login/login_model.dart';
 
-import 'package:untitled1/theme/colors.dart';
-
+import '../../model/login/login_model.dart';
+import '../../network/endpoint.dart';
 import '../../network/remote/http.dart';
+import '../../theme/colors.dart';
+import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(InitialState());
@@ -16,11 +17,13 @@ class LoginCubit extends Cubit<LoginState> {
 
   LoginModel? loginModel;
 
-  Future login({required phoneNumber, required password})async {
+  void login({required phoneNumber, required password}) {
     emit(LoadingState());
-   await HttpHelper.postData(
+    HttpHelper.postData(
             url: "login",
-            data: {"phone_number": phoneNumber, "password": password})
+            data: {"phone_number": phoneNumber, "password": password}
+
+    )
         .then((value) {
       loginModel = LoginModel.fromJson(jsonDecode(value.body));
 
@@ -42,16 +45,14 @@ class LoginCubit extends Cubit<LoginState> {
     passwordICon = password
         ? Icon(
             Icons.visibility_outlined,
-            size: height / 33,
+            size: height / 26,
             color: primary,
           )
         : Icon(
             Icons.visibility_off_outlined,
-            size: height / 33,
+            size: height / 26,
             color: primary,
           );
     emit(PasswordState());
   }
-
-
 }

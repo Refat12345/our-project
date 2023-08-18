@@ -1,16 +1,18 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/cart/view_cart_cubit.dart';
-import 'package:untitled1/component/helper.dart';
-import 'package:untitled1/component/widget.dart';
-import 'package:untitled1/model/cart/cart_model.dart';
-import 'package:untitled1/theme/colors.dart';
+
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
+import '../../bloc/cart/view_cart_cubit.dart';
 import '../../bloc/cart/view_cart_state.dart';
 import '../../bloc/location/add_location_cubit.dart';
 import '../../bloc/location/add_location_state.dart';
+import '../../component/helper.dart';
+import '../../component/widget.dart';
+import '../../model/cart/cart_model.dart';
+import '../../theme/colors.dart';
+
 
 class Cart extends StatelessWidget {
    Cart({super.key});
@@ -103,11 +105,11 @@ class Cart extends StatelessWidget {
 
             if(message!=null)
             {
-             if(state.message=="لا يوجد سلة تسوق لهذا الزبون.") {flutterToast(state.message, "type", height, "gravity");}
-             else {flutterToast("${message!}و${state.message}", "type", height, "gravity");}
+             if(state.message=="لا يوجد سلة تسوق لهذا الزبون.") {flutterToastt(state.message, "type", height, "gravity");}
+             else {flutterToastt("${message!}و${state.message}", "type", height, "gravity");}
 
             }else {
-              flutterToast(state.message, "type", height, "gravity");
+              flutterToastt(state.message, "type", height, "gravity");
             }
 
           }
