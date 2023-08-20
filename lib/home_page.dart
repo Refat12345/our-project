@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:project2/page/user/ProductScreen.dart';
-import 'package:project2/page/user/cart.dart';
-import 'package:project2/page/user/favourite.dart';
-import 'package:project2/page/user/storescreen.dart';
-import 'package:project2/page/vendor/addstore.dart';
+import 'package:untitled1/page/user/ProductScreen.dart';
+import 'package:untitled1/page/user/favourite.dart';
+import 'package:untitled1/page/user/storescreen.dart';
+import 'package:untitled1/page/userDelirey/orders.dart';
+import 'package:untitled1/theme/colors.dart';
+
 import 'bottomnavbar_cubit.dart';
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
 
   Widget build(BuildContext context) {
@@ -17,14 +20,14 @@ class HomePage extends StatelessWidget {
       StoreScreen(),
       ProductScreen(),
       FavouriteScreen(),
-      Cart(),
+      Orders('order'),
     ];
 
     List<GButton> _tabs = const [
-      GButton(icon: Icons.home, text: 'الرئيسية'),
-      GButton(icon: Icons.shop_rounded, text: 'المنتجات'),
-      GButton(icon: Icons.favorite_outline, text: 'المفضلة'),
-      GButton(icon: Icons.shopping_cart, text: 'سلة التسوق'),
+      GButton(icon: Icons.home, text: 'الرئيسية',backgroundColor:green),
+      GButton(icon: Icons.shop_rounded, text: 'المنتجات',backgroundColor:green),
+      GButton(icon: Icons.favorite_outline, text: 'المفضلة',backgroundColor:green),
+      GButton(icon: Icons.shopping_cart, text: 'الطلبات',backgroundColor:green),
     ];
 
     return BlocProvider(
