@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 import '../../model/login/login_model.dart';
-import '../../network/endpoint.dart';
 import '../../network/remote/http.dart';
 import '../../theme/colors.dart';
 import 'login_state.dart';
@@ -45,12 +44,12 @@ class LoginCubit extends Cubit<LoginState> {
     passwordICon = password
         ? Icon(
             Icons.visibility_outlined,
-            size: height / 26,
+            size: height*0.03,
             color: primary,
           )
         : Icon(
             Icons.visibility_off_outlined,
-            size: height / 26,
+            size: height*0.03,
             color: primary,
           );
     emit(PasswordState());
