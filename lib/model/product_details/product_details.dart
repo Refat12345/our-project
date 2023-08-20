@@ -27,6 +27,7 @@ class ProductInfo {
   List<String>? pictures;
   int? quantity;
   int? inFavorite;
+  String ? avgStars;
 
   ProductInfo({
     this.id,
@@ -37,6 +38,7 @@ class ProductInfo {
     this.pictures,
     this.quantity,
     this.inFavorite,
+    this.avgStars
   });
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
@@ -48,7 +50,7 @@ class ProductInfo {
     price = json['price'];
     pictures = json['pictures'].cast<String>();
     quantity = json['quantity'];
-    inFavorite = json['in_favorite'];
+    avgStars=json['avg_stars'];
   }
 
   Map<String, dynamic> toJson() {
@@ -60,8 +62,7 @@ class ProductInfo {
     data['price'] = price;
     data['pictures'] =pictures;
     data['quantity'] = quantity;
-    data['in_favorite'] = inFavorite;
-
+    data['avg_stars']=avgStars;
     return data;
   }
 }
