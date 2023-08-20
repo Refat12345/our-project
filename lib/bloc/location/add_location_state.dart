@@ -4,7 +4,11 @@ class InitialState extends AddLocationState{}
 
 class LoadingState extends AddLocationState{}
 
-class SuccessState extends AddLocationState{}
+class AddLocationSuccessState extends AddLocationState
+{
+  double longitude,latitude;
+  AddLocationSuccessState(this.longitude,this.latitude);
+}
 
 class ErrorState extends AddLocationState{}
 

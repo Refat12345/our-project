@@ -22,7 +22,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
       "latitude": "$latitude",
       "longitude": "$longitude"
     }).then((value) {
-      emit(SuccessState());
+      emit(AddLocationSuccessState(longitude!,latitude!));
     }).catchError((onError) {
       print(onError.toString());
     });
