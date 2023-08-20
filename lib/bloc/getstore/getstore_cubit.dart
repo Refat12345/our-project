@@ -7,9 +7,7 @@ import 'package:meta/meta.dart';
 import '../../model/getcategory.dart';
 import '../../model/getstoremodel.dart';
 import '../../model/getvendorshop.dart';
-import '../../network/endpoint.dart';
 import '../../network/remote/http.dart';
-
 part 'getstore_state.dart';
 
 class GetstoreCubit extends Cubit<GetstoreState> {
