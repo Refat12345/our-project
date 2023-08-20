@@ -1,18 +1,16 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project2/page/register.dart';
-
-import 'package:project2/page/user/product_details.dart';
-
+import 'package:untitled1/home_page.dart';
+import 'package:untitled1/page/register.dart';
+import 'package:untitled1/page/userDelirey/orders.dart';
+import 'package:untitled1/page/vendor/getvendorshop.dart';
 import '../bloc/login/login_cubit.dart';
 import '../bloc/login/login_state.dart';
 import '../component/helper.dart';
 import '../component/widget.dart';
-import '../home_page.dart';
 import '../network/local/cache.dart';
 import '../theme/colors.dart';
-import 'delivery/delivery_show_requist.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -149,27 +147,30 @@ class Login extends StatelessWidget {
                   }, listener: (context, state) {
                     if (state is SuccessState) {
                       if (state.loginModel.status == true) {
-                        CacheHelper.saveData(key: "token", value: state.loginModel.token);
-                        CacheHelper.saveData(key: "type", value: state.loginModel.type);
-                        if(state.loginModel.type=='vendor'){
+                        CacheHelper.saveData(
+                            key: "token", value: state.loginModel.token);
+                        CacheHelper.saveData(
+                            key: "type", value: state.loginModel.type);
+                        if (state.loginModel.type == 'vendor') {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>  Delivery_Show_Requist()));
-
-                        }
-                        else{
+                                  builder: (context) =>  const GetVendorShop()));
+                        } else if (state.loginModel.type == 'delivery') {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>  HomePage()));
+                                  builder: (context) => Orders('order')));
+                        } else if (state.loginModel.type == 'customer') {
+                          CacheHelper.saveData(key: 'id', value: state.loginModel.data!.id);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
                         }
-
-
-
-
                       } else {
-                        flutterToast(state.loginModel.message.toString(), "error");
+                        flutterToast(
+                            state.loginModel.message.toString(), "error");
                       }
                     }
                   }),
