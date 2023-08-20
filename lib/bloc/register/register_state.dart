@@ -1,4 +1,3 @@
-
 import '../../model/register/register_model.dart';
 
 abstract class RegisterState {}
@@ -16,3 +15,4 @@ class SuccessState extends RegisterState {
 class ErrorState extends RegisterState {}
 
 class RemoveField extends RegisterState {}
+

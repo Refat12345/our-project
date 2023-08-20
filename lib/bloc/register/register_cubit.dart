@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project2/bloc/register/register_state.dart';
+import 'package:untitled1/bloc/register/register_state.dart';
+
 
 import '../../model/register/register_model.dart';
 import '../../network/local/cache.dart';
@@ -26,14 +27,16 @@ class RegisterCubit extends Cubit<RegisterState> {
       'name': name,
       'phone_number': phoneNumber,
       'password': password
-    }).then((value) {
+    }).then((value)async {
       registerModel = RegisterModel.fromJson(jsonDecode(value.body));
+    await  CacheHelper.saveData(key: 'token', value: registerModel!.token);
       emit(SuccessState(registerModel!));
     }).catchError((onError) {
       emit(ErrorState());
       print(onError.toString());
     });
   }
+
 
   void removeField()
   {
