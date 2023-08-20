@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../model/getshopinfo.dart';
-import '../../network/endpoint.dart';
+
 import '../../network/remote/http.dart';
 part 'getshopinfo_state.dart';
 
@@ -24,7 +24,7 @@ class GetshopinfoCubit extends Cubit<GetshopinfoState> {
       url: "getshopinfo/${id}",)
 
         .then((value) {
-       print('Sucesss');
+
 
       Getshopinfomodel = getshopinfomodel.fromJson(jsonDecode(value.body));
 
