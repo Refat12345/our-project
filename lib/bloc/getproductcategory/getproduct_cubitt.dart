@@ -8,7 +8,6 @@ import '../../model/changefaovouritemodel.dart';
 import '../../model/getcategory.dart';
 import '../../model/getfavouritemodell.dart';
 import '../../model/getproductbycategorymodel.dart';
-import '../../network/endpoint.dart';
 import '../../network/remote/http.dart';
 
 part 'getproduct_statee.dart';
@@ -57,7 +56,7 @@ class GetproductCubitt extends Cubit<GetproductStatee> {
 
         });
       });
-      print(favourites.toString());
+
 
 
       emit(getproductcategorySuccessState());
@@ -83,8 +82,6 @@ class GetproductCubitt extends Cubit<GetproductStatee> {
         .then((value) {
 
       changeFavoritesModel = ChangeFavoritesModel.fromJson(jsonDecode(value.body));
-
-      print(changeFavoritesModel?.message);
 
 
 
