@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
-import 'package:project2/bloc/cart/view_cart_state.dart';
-
+import 'package:untitled1/bloc/cart/view_cart_state.dart';
+import 'package:untitled1/network/local/cache.dart';
 import '../../model/cart/cart_model.dart';
 import '../../network/remote/http.dart';
 
@@ -38,7 +37,6 @@ class CartCubit extends Cubit<CartState> {
       var response = jsonDecode(value.body);
       String message = response['message'];
       cartModel!.cartItems!.length=0;
-      print(cartModel!.cartItems!.length);
       emit(ConfirmCartSuccessState(message));
     }).catchError((onError) {
       emit(ConfirmCartErrorState());
@@ -68,8 +66,9 @@ int id1=0;
     await HttpHelper.deleteData(
         url: 'clearCart',
         data: {
-     'customer_id':"1"}
+     'customer_id':CacheHelper.getData(key: "id")}
     ).then((value) {
+      cartModel!.cartItems!.length=0;
       emit(ClearCartSuccessState());
     }).catchError((onError) {
       print(onError.toString());
@@ -84,7 +83,6 @@ int id1=0;
    await HttpHelper.postData(
         url: 'updateProductQuantityInCart',
         data: {'product_id': "$id", 'quantity': "$quantity"}).then((value) {
-          print('object3');
       emit(UpdateQuantitySuccessState());
     }).catchError((onError) {
       print(onError.toString());
@@ -93,7 +91,7 @@ int id1=0;
   }
 
 
-  void prints(CartModel cartModel)
+  void updatePrice(CartModel cartModel)
   {
     CartItems cartItems=cartModel.cartItems!.firstWhere((element) => element.productId==id1);
     double productPrice=double.parse(cartItems.productPrice!);
