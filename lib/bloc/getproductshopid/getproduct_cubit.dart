@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http ;
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -39,7 +38,7 @@ class GetproductCubit extends Cubit<GetproductState> {
 
     )
         .then((value) {
-          print(value.body);
+
 
       Addmodel = addproductmodel.fromJson(jsonDecode(value.body));
 
@@ -104,7 +103,7 @@ class GetproductCubit extends Cubit<GetproductState> {
         .then((value) {
 
       changeFavoritesModel = ChangeFavoritesModel.fromJson(jsonDecode(value.body));
-      print(changeFavoritesModel?.message);
+
 
 
 
@@ -151,17 +150,17 @@ class GetproductCubit extends Cubit<GetproductState> {
     try {
       var response = await request.send();
       if (response.statusCode == 200) {
-        print(response.statusCode);
+
 
         response.stream.transform(utf8.decoder).listen((value) {
           Addmodel = addproductmodel.fromJson(jsonDecode(value));
-          print(Addmodel?.message);
+
 
           emit(AddProductSuccessState(Addmodel!));
         });
 
       } else {
-        print(response.statusCode);
+
       }
     } catch (error) {
     }
