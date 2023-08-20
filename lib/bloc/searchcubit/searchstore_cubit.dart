@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 import '../../model/changefaovouritemodel.dart';
 import '../../model/searchproductmodel.dart';
 import '../../model/searchstoremodel.dart';
-import '../../network/endpoint.dart';
+
 import '../../network/remote/http.dart';
 
 part 'searchstore_state.dart';
@@ -30,7 +30,6 @@ class SearchstoreCubit extends Cubit<SearchstoreState> {
 
         .then((value) {
       Searchmodel = searchstoremodel.fromJson(jsonDecode(value.body));
-      print(Searchmodel!.shopsData?.length);
       emit(SuccessState());
     }).catchError((onError) {
       print(onError.toString());
@@ -82,7 +81,6 @@ class SearchstoreCubit extends Cubit<SearchstoreState> {
         .then((value) {
 
       changeFavoritesModel = ChangeFavoritesModel.fromJson(jsonDecode(value.body));
-      print(changeFavoritesModel?.message);
 
 
 
