@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 import 'dart:io';
-import 'package:dio/dio.dart';
 import '../../model/addstore.dart';
 import '../../network/endpoint.dart';
 import '../../network/local/cache.dart';
@@ -30,13 +28,16 @@ class AddstoreCubit extends Cubit<AddstoreState> {
     required  description,
     required  phonenumber,
     required   city,
+    required longitude,
+    required latitude,
     var category_id,
 
 
   }) async {
+
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('${URL}/addShopWithLocation'),
+      Uri.parse('$URL/addShopWithLocation'),
     );
     request.headers['Authorization'] = 'Bearer ${CacheHelper.getData(key: 'token')}';
     if(selectitem == 'food '){
@@ -48,8 +49,8 @@ class AddstoreCubit extends Cubit<AddstoreState> {
     request.fields['description'] = description;
     request.fields['phone_number'] = phonenumber;
     request.fields['city'] = city;
-    request.fields['latitude'] = '33.5138';
-    request.fields['longitude'] = '33.5138';
+    request.fields['latitude'] = '$latitude';
+    request.fields['longitude'] = '$longitude';
     request.fields['category_id'] = category_id.toString();
     if (addImage != null) {
       request.files.add(
@@ -60,12 +61,9 @@ class AddstoreCubit extends Cubit<AddstoreState> {
     try {
       var response = await request.send();
       var body = request.fields.values;
-      print(body);
       if (response.statusCode == 200) {
-        print('soso');
         response.stream.transform(utf8.decoder).listen((value) {
           Addmodel = addproductmodel.fromJson(jsonDecode(value));
-          print(Addmodel?.message);
 
           emit(SuccessState(Addmodel!));
         });
@@ -74,7 +72,7 @@ class AddstoreCubit extends Cubit<AddstoreState> {
 
 
       } else {
-        print(response.statusCode);
+
       }
     } catch (error) {
     }
