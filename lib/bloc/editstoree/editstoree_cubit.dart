@@ -31,7 +31,7 @@ class EditstoreeCubit extends Cubit<EditstoreeState> {
       url: "getshopinfo/${id}",)
 
         .then((value) {
-      print('Sucesss');
+
 
       Getshopinfomodel = getshopinfomodel.fromJson(jsonDecode(value.body));
 
@@ -79,9 +79,9 @@ class EditstoreeCubit extends Cubit<EditstoreeState> {
     try {
       var response = await request.send();
       var body = request.fields.values;
-      print(body);
+
       if (response.statusCode == 200) {
-        print('soso');
+
         response.stream.transform(utf8.decoder).listen((value) {
           Addmodel = addproductmodel.fromJson(jsonDecode(value));
           print(Addmodel?.message);
@@ -92,7 +92,7 @@ class EditstoreeCubit extends Cubit<EditstoreeState> {
 
 
       } else {
-        print(response.statusCode);
+
       }
     } catch (error) {
     }
