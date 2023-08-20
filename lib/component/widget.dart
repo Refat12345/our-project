@@ -182,16 +182,17 @@ class PinCode extends StatelessWidget {
   final double maxHeight;
   final double maxWidth;
   final String phoneNumber;
-  final Function()? onTap;
 
-  const PinCode(
+  Widget bottom;
+
+   PinCode(
       {super.key,
         required this.controller,
         required this.pinLength,
         required this.maxHeight,
         required this.maxWidth,
         required this.phoneNumber,
-        this.onTap});
+        required this.bottom,});
 
   @override
   Widget build(BuildContext context) {
@@ -246,15 +247,13 @@ class PinCode extends StatelessWidget {
         SizedBox(
           height: maxHeight / 35,
         ),
-        Bottom(
-          text: "ارسال الرمز",
-          onTap: onTap!,
-          height: maxHeight,
-        )
+        bottom
       ],
     );
   }
 }
+
+
 
 class ProductCart extends StatelessWidget {
 
@@ -271,20 +270,19 @@ class ProductCart extends StatelessWidget {
     var price=double.parse(cartItems.productPrice!);
 
     return Card(
-        elevation: 1.5,
-        shadowColor: green,
+
         clipBehavior: Clip.antiAliasWithSaveLayer,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        color: Colors.white,
+        color: lightGrey,
         child: Row(textDirection: TextDirection.rtl, children: [
           Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: 7.0, vertical: 5),
               child: SizedBox(
-                width: width / 5,
-                height: height / 7.5,
+                width: width *0.2,
+                height: height *0.12,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(
                       width / 55),
@@ -331,13 +329,12 @@ class ProductCart extends StatelessWidget {
                     builder: (context)=>IconButton(
                       onPressed: (){
                         CartCubit.get(context1).deleteProductFromCart(id: cartItems.productId);
-                        CartCubit.get(context1).prints(cartModel);
+                        CartCubit.get(context1).updatePrice(cartModel);
                       },icon: Icon(Icons.delete_outline,size: width*0.022+height*0.022,color: green,),),
                     fallback: (context)=>const Center(child: CircularProgressIndicator(),)),
                 ZoomTapAnimation(
                   onTap: ()
                   {
-                    print('a');
                     CartCubit.get(context1).changeQuantity("add",cartItems,cartModel);
                     CartCubit.get(context).updateProductQuantityInCart(id: cartItems.productId, quantity: cartItems.quantity);
                   },
@@ -388,6 +385,10 @@ class ProductCart extends StatelessWidget {
         ]));
   }
 }
+
+
+
+
 
 
 

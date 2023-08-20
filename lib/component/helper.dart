@@ -51,16 +51,16 @@ Future flutterToastt(dynamic message, String type,double height,String gravity) 
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
       gravity: gravity=="pin"?ToastGravity.CENTER:ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
+      timeInSecForIosWeb: 2,
       backgroundColor: type=="error"?Colors.red:green,
       textColor: Colors.white,
-      fontSize: height*0.027);
+      fontSize: height*0.02);
 }
 
 
 
 
 class EndPoint {
-  static String url = "http://192.168.1.104:8000/api/";
-  static String imageUrl="http://192.168.1.104:8000/";
+  static String url = "http://192.168.1.105:8000/api/";
+  static String imageUrl="http://192.168.1.105:8000/";
 }
