@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project2/bloc/product/product_details/product_details_state.dart';
+import 'package:untitled1/bloc/product/product_details/product_details_state.dart';
+
 
 
 import '../../../model/product_details/product_details.dart';
@@ -16,10 +17,8 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   int quantity=0;
 
   Future getProductDetails({required id}) async{
-    print(id);
     emit(LoadingState());
    await HttpHelper.getData(url: 'getProductInfo/$id').then((value) {
-     print('object');
       productDetailsModel =
           ProductDetailsModel.fromJson(jsonDecode(value.body));
       quantity=productDetailsModel!.productInfo!.quantity!;
