@@ -60,6 +60,7 @@ class GetVendorShop extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: SingleChildScrollView(
+                                    physics: const AlwaysScrollableScrollPhysics(),
                                     child: Column(
                                       textDirection: TextDirection.rtl,
                                       children: [
