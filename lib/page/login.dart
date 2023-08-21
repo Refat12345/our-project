@@ -160,13 +160,13 @@ class Login extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Orders('order')));
+                                  builder: (context) => Orders('orders')));
                         } else if (state.loginModel.type == 'customer') {
                           CacheHelper.saveData(key: 'id', value: state.loginModel.data!.id);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                                  builder: (context) => const HomePage()));
                         }
                       } else {
                         flutterToast(
