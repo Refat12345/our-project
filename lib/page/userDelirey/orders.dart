@@ -13,6 +13,8 @@ import '../../bloc/orders/orders_state.dart';
 class Orders extends StatelessWidget {
   Orders(this.type,{super.key});
   String type;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+  GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,22 +47,24 @@ class Orders extends StatelessWidget {
                  }, icon: const Icon(Icons.menu,)):const SizedBox()
                 ],
               ),
-              body: LayoutBuilder(
-                builder: (context, constrain) =>
-                    OrdersCubit.get(context).ordersModel != null
-                        ? (OrdersCubit.get(context)
-                                    .ordersModel!
-                                    .ordersInfo!
-                                    .length !=
-                                0
-                            ? RefreshIndicator(
-                              backgroundColor: green,
-                              color: Colors.white,
-                              onRefresh: ()async=>context.read<OrdersCubit>().getHistoryOrders(),
-                              child: Padding(
+              body: RefreshIndicator(
+                color: Colors.white,
+                backgroundColor: green,
+                onRefresh: () async {
+                  await context.read<OrdersCubit>().getHistoryOrders();
+                },
+                child: LayoutBuilder(
+                  builder: (context, constrain) =>
+                      OrdersCubit.get(context).ordersModel != null
+                          ? (OrdersCubit.get(context)
+                                      .ordersModel!
+                                      .ordersInfo!
+                                      .length !=
+                                  0
+                              ? Padding(
                                   padding: EdgeInsets.only(top: height * 0.023),
                                   child: ListView.separated(
-                                      physics: const BouncingScrollPhysics(),
+                                      physics: const AlwaysScrollableScrollPhysics(),
                                       itemBuilder: (context, index) => item(ordersCubit,
                                           constrain.maxHeight,
                                           constrain.maxWidth,
@@ -77,22 +81,22 @@ class Orders extends StatelessWidget {
                                           .ordersModel!
                                           .ordersInfo!
                                           .length),
-                                ),
-                            )
-                            : Center(
-                                child: Text(
-                                  "لا يوجد طلبات",
-                                  style: TextStyle(
-                                      fontFamily: "Cairo",
-                                      fontSize: height * 0.02 + width * 0.02,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ))
-                        : const Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(green),
+                                )
+                              : Center(
+                                  child: Text(
+                                    "لا يوجد طلبات",
+                                    style: TextStyle(
+                                        fontFamily: "Cairo",
+                                        fontSize: height * 0.02 + width * 0.02,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ))
+                          : const Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(green),
+                              ),
                             ),
-                          ),
+                ),
               ),
             );
           },
