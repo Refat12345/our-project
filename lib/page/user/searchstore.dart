@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/component/helper.dart';
 import 'package:untitled1/page/user/storeproduct.dart';
 
 import '../../bloc/searchcubit/searchstore_cubit.dart';
@@ -28,6 +29,7 @@ class SearchStore extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 5.0),
               child: Column(
+                textDirection: TextDirection.rtl,
                 children: [
                   SizedBox(
                     height: screenHeight * 0.07,
@@ -44,6 +46,7 @@ class SearchStore extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Row(
+                          textDirection: TextDirection.rtl,
                           children: [
                             IconButton(
                               icon: Icon(
@@ -54,6 +57,7 @@ class SearchStore extends StatelessWidget {
                             ),
                             Expanded(
                               child: TextField(
+                                textDirection: TextDirection.rtl,
                                 onChanged: (value) {
                                   if (value.isNotEmpty) {
                                     SearchstoreCubit.get(context)
@@ -81,6 +85,7 @@ class SearchStore extends StatelessWidget {
                       child: Container(
                         child: SingleChildScrollView(
                           child: Column(
+                            textDirection: TextDirection.rtl,
                             children: [
                               ConstrainedBox(
                                 constraints: BoxConstraints(
@@ -88,6 +93,7 @@ class SearchStore extends StatelessWidget {
                                       MediaQuery.of(context).size.height - 150,
                                 ),
                                 child: ListView.separated(
+                                  reverse: true,
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount:
@@ -122,14 +128,14 @@ class SearchStore extends StatelessWidget {
                                           width: double.infinity,
                                           height: double.infinity,
                                           child: Row(
+                                            textDirection: TextDirection.rtl,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
                                               ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(15),
-                                                child: Image.asset(
-                                                  'images/shop3.jpg',
+                                                child: Image.network(EndPoint.imageShopUrl+Searchmodel!.shopsData![index].photo!,
                                                   fit: BoxFit.cover,
                                                   width: MediaQuery.of(context)
                                                           .size
@@ -141,6 +147,7 @@ class SearchStore extends StatelessWidget {
                                               SizedBox(width: 20),
                                               Expanded(
                                                 child: Column(
+                                                  textDirection: TextDirection.rtl,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
@@ -161,6 +168,7 @@ class SearchStore extends StatelessWidget {
                                                     ),
                                                     SizedBox(height: 10),
                                                     Row(
+                                                      textDirection: TextDirection.rtl,
                                                       children: [
                                                         Icon(Icons.location_on),
                                                         SizedBox(width: 10),
@@ -181,6 +189,7 @@ class SearchStore extends StatelessWidget {
                                                     ),
                                                     SizedBox(height: 10),
                                                     Row(
+                                                      textDirection: TextDirection.rtl,
                                                       children: [
                                                         Icon(Icons.star,
                                                             color:
