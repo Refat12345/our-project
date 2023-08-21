@@ -107,7 +107,9 @@ class Login extends StatelessWidget {
                             onTap: onTap,
                           ),
                           fallback: (context) =>
-                              const Center(child: CircularProgressIndicator()),
+                              const Center(child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(primary),
+                              )),
                         ),
                         SizedBox(
                           height: constrain.maxHeight / 30,
