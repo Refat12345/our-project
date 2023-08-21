@@ -19,6 +19,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   Future register({required phoneNumber, required name, required password}) async{
     values == -1
+
         ? CacheHelper.saveData(key: 'type', value: 'customer')
         : CacheHelper.saveData(key: 'type', value: 'vendor');
     emit(LoadingState());
@@ -28,8 +29,16 @@ class RegisterCubit extends Cubit<RegisterState> {
       'phone_number': phoneNumber,
       'password': password
     }).then((value)async {
+
+    if(value.statusCode==200)
+    {
       registerModel = RegisterModel.fromJson(jsonDecode(value.body));
-    await  CacheHelper.saveData(key: 'token', value: registerModel!.token);
+      await  CacheHelper.saveData(key: 'token', value: registerModel!.token);
+    }else
+    {
+      var response=jsonDecode(value.body);
+      registerModel!.message=response['message'];
+    }
       emit(SuccessState(registerModel!));
     }).catchError((onError) {
       emit(ErrorState());
