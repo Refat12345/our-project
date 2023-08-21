@@ -133,123 +133,128 @@ class StoreProduct extends StatelessWidget {
                           fontFamily: "Cairo",
                           fontSize: constraints.maxHeight * 0.02 + constraints.maxWidth * 0.02,
                           fontWeight: FontWeight.w600),
-                      ),):Container(
-                        child: GridView.builder(
-                            padding: EdgeInsets.all(screenWidth * 0.036),
-                            itemCount: getProductModel.productsData?.length ?? 0,
-                            gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.70,
-                              crossAxisSpacing: screenWidth * 0.036,
-                              mainAxisSpacing: screenWidth * 0.036,
-                            ),
-                            itemBuilder: (BuildContext context, int index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ProductDetails(
-                                            id: getProductModel
-                                                .productsData![index].id,
-                                          )));
-                                },
-                                child: Stack(
-                                  children: [
-                                    Card(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          textDirection: TextDirection.rtl,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            AspectRatio(
-                                              aspectRatio: 1,
-                                              child: Image.network(
-                                                imageProductUrl +
-                                                    (getProductModel
-                                                        .productsData![index]
-                                                        .picture ??
-                                                        'sd'),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(
-                                                  screenWidth * 0.018),
-                                              child: Column(
-                                                textDirection: TextDirection.rtl,
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    getProductModel
-                                                        .productsData![index]
-                                                        .name ??
-                                                        'ds',
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                        screenWidth * 0.04,
-                                                        fontWeight:
-                                                        FontWeight.bold,
-                                                        fontFamily: 'Cairo'),
-                                                  ),
-                                                  SizedBox(
-                                                      height:
-                                                      screenWidth * 0.007),
-                                                  Text(
-                                                    '\$${getProductModel.productsData![index].price ?? 'ds'}',
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.green,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: constraints.maxWidth * 0.48,
-                                      left: constraints.maxWidth * 0.001,
-                                      child: Visibility(
-                                        visible: type == 'customer',
-                                        child: IconButton(
-                                          icon: CircleAvatar(
-                                            radius: constraints.maxWidth * 0.030,
-                                            backgroundColor: GetproductCubit.get(
-                                                context)
-                                                .favourites[
-                                            getProductModel
-                                                .productsData?[index]
-                                                .id] ==
-                                                1
-                                                ? Colors.red
-                                                : Colors.grey,
-                                            child: Icon(
-                                              Icons.favorite,
-                                              color: Colors.white,
-                                              size: constraints.maxWidth * 0.05,
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            GetproductCubit.get(context)
-                                                .changefavourite(
+                      ),):RefreshIndicator(
+                        backgroundColor: green,
+                        color: Colors.white,
+                        onRefresh: ()async=>context.read<GetproductCubit>().getproductbyshopid(id: storeid),
+                        child: Container(
+                          child: GridView.builder(
+                              padding: EdgeInsets.all(screenWidth * 0.036),
+                              itemCount: getProductModel.productsData?.length ?? 0,
+                              gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.70,
+                                crossAxisSpacing: screenWidth * 0.036,
+                                mainAxisSpacing: screenWidth * 0.036,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ProductDetails(
                                               id: getProductModel
-                                                  .productsData?[index].id,
-                                            );
-                                          },
+                                                  .productsData![index].id,
+                                            )));
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Card(
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            textDirection: TextDirection.rtl,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              AspectRatio(
+                                                aspectRatio: 1,
+                                                child: Image.network(
+                                                  imageProductUrl +
+                                                      (getProductModel
+                                                          .productsData![index]
+                                                          .picture ??
+                                                          'sd'),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(
+                                                    screenWidth * 0.018),
+                                                child: Column(
+                                                  textDirection: TextDirection.rtl,
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      getProductModel
+                                                          .productsData![index]
+                                                          .name ??
+                                                          'ds',
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                          screenWidth * 0.04,
+                                                          fontWeight:
+                                                          FontWeight.bold,
+                                                          fontFamily: 'Cairo'),
+                                                    ),
+                                                    SizedBox(
+                                                        height:
+                                                        screenWidth * 0.007),
+                                                    Text(
+                                                      '\$${getProductModel.productsData![index].price ?? 'ds'}',
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.green,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
+                                      Positioned(
+                                        top: constraints.maxWidth * 0.48,
+                                        left: constraints.maxWidth * 0.001,
+                                        child: Visibility(
+                                          visible: type == 'customer',
+                                          child: IconButton(
+                                            icon: CircleAvatar(
+                                              radius: constraints.maxWidth * 0.030,
+                                              backgroundColor: GetproductCubit.get(
+                                                  context)
+                                                  .favourites[
+                                              getProductModel
+                                                  .productsData?[index]
+                                                  .id] ==
+                                                  1
+                                                  ? Colors.red
+                                                  : Colors.grey,
+                                              child: Icon(
+                                                Icons.favorite,
+                                                color: Colors.white,
+                                                size: constraints.maxWidth * 0.05,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              GetproductCubit.get(context)
+                                                  .changefavourite(
+                                                id: getProductModel
+                                                    .productsData?[index].id,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        ),
                       ),
                       floatingActionButton: type == 'vendor'
                           ? FloatingActionButton(
