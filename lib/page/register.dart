@@ -114,66 +114,69 @@ class Register extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5.0, right: 5),
-                                  child: DropdownButtonFormField(
-                                      iconSize: constrain.maxHeight > 1300
-                                          ? constrain.maxHeight * 0.045
-                                          : (constrain.maxHeight > 1000
-                                              ? constrain.maxHeight * 0.048
-                                              : (constrain.maxHeight > 750 &&
-                                                      constrain.maxHeight < 950)
-                                                  ? constrain.maxHeight * 0.038
-                                                  : constrain.maxHeight >=
-                                                              950 &&
-                                                          constrain.maxHeight <=
-                                                              1000
-                                                      ? constrain.maxHeight *
-                                                          0.09
-                                                      : constrain.maxHeight *
-                                                          0.042),
-                                      iconEnabledColor: primary,
-                                      style: TextStyle(
-                                          fontSize: constrain.maxHeight * 0.02,
-                                          color: Colors.black),
-                                      decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                      ),
-                                      value: "-1",
-                                      items: const [
-                                        DropdownMenuItem(
-                                          alignment:
-                                              AlignmentDirectional.bottomEnd,
-                                          value: "-1",
-                                          child: Text(
-                                            'زبون',
-                                            textDirection: TextDirection.rtl,
-                                            style:
-                                                TextStyle(fontFamily: "Cairo"),
-                                          ),
+                                  child: Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: DropdownButtonFormField(
+                                        iconSize: constrain.maxHeight > 1300
+                                            ? constrain.maxHeight * 0.045
+                                            : (constrain.maxHeight > 1000
+                                                ? constrain.maxHeight * 0.048
+                                                : (constrain.maxHeight > 750 &&
+                                                        constrain.maxHeight < 950)
+                                                    ? constrain.maxHeight * 0.038
+                                                    : constrain.maxHeight >=
+                                                                950 &&
+                                                            constrain.maxHeight <=
+                                                                1000
+                                                        ? constrain.maxHeight *
+                                                            0.09
+                                                        : constrain.maxHeight *
+                                                            0.042),
+                                        iconEnabledColor: primary,
+                                        style: TextStyle(
+                                            fontSize: constrain.maxHeight * 0.02,
+                                            color: Colors.black),
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
                                         ),
-                                        DropdownMenuItem(
-                                          alignment:
-                                              AlignmentDirectional.bottomEnd,
-                                          value: "1",
-                                          child: Text(
-                                            'صاحب متجر',
-                                            textDirection: TextDirection.rtl,
-                                            style:
-                                                TextStyle(fontFamily: "Cairo"),
+                                        value: "-1",
+                                        items: const [
+                                          DropdownMenuItem(
+                                            alignment:
+                                                AlignmentDirectional.bottomEnd,
+                                            value: "-1",
+                                            child: Text(
+                                              'زبون',
+                                              textDirection: TextDirection.rtl,
+                                              style:
+                                                  TextStyle(fontFamily: "Cairo"),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                      onChanged: (value) {
-                                        if (value == "1") {
-                                          RegisterCubit.get(context).values = 1;
-                                          RegisterCubit.get(context)
-                                              .removeField();
-                                        } else {
-                                          RegisterCubit.get(context).values =
-                                              -1;
-                                          RegisterCubit.get(context)
-                                              .removeField();
-                                        }
-                                      }),
+                                          DropdownMenuItem(
+                                            alignment:
+                                                AlignmentDirectional.bottomEnd,
+                                            value: "1",
+                                            child: Text(
+                                              'صاحب متجر',
+                                              textDirection: TextDirection.rtl,
+                                              style:
+                                                  TextStyle(fontFamily: "Cairo"),
+                                            ),
+                                          ),
+                                        ],
+                                        onChanged: (value) {
+                                          if (value == "1") {
+                                            RegisterCubit.get(context).values = 1;
+                                            RegisterCubit.get(context)
+                                                .removeField();
+                                          } else {
+                                            RegisterCubit.get(context).values =
+                                                -1;
+                                            RegisterCubit.get(context)
+                                                .removeField();
+                                          }
+                                        }),
+                                  ),
                                 ),
                               ),
                             ),
