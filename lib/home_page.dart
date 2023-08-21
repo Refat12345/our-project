@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
       StoreScreen(),
       ProductScreen(),
       FavouriteScreen(),
-      Orders('order'),
+      Orders('orders'),
     ];
 
     List<GButton> _tabs = const [
