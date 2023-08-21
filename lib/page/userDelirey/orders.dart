@@ -40,7 +40,7 @@ class Orders extends StatelessWidget {
                     TextStyle(fontFamily: "Cairo", fontSize: height * 0.023),
                 backgroundColor: green,
                 actions: [
-                 type=='order'? IconButton(onPressed: (){
+                 type=='orders'&&CacheHelper.getData(key: 'type')=='delivery'? IconButton(onPressed: (){
                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Orders('order')));
                  }, icon: const Icon(Icons.menu,)):const SizedBox()
                 ],
