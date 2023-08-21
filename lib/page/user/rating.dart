@@ -84,7 +84,9 @@ class RatingScreen extends StatelessWidget {
                                       ),
                                     ),
                                 fallback: (context) => const Center(
-                                      child: CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation<Color>(green),
+                                      ),
                                     ))),
                       ],
                     ));
