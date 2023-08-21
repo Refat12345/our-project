@@ -53,27 +53,32 @@ class Orders extends StatelessWidget {
                                     .ordersInfo!
                                     .length !=
                                 0
-                            ? Padding(
-                                padding: EdgeInsets.only(top: height * 0.023),
-                                child: ListView.separated(
-                                    physics: const BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) => item(ordersCubit,
-                                        constrain.maxHeight,
-                                        constrain.maxWidth,
-                                        OrdersCubit.get(context)
-                                            .ordersModel!
-                                            .ordersInfo![index],
-                                        context),
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(
-                                          height: constrain.maxWidth * 0.01 +
-                                              constrain.maxHeight * 0.02,
-                                        ),
-                                    itemCount: OrdersCubit.get(context)
-                                        .ordersModel!
-                                        .ordersInfo!
-                                        .length),
-                              )
+                            ? RefreshIndicator(
+                              backgroundColor: green,
+                              color: Colors.white,
+                              onRefresh: ()async=>context.read<OrdersCubit>().getHistoryOrders(),
+                              child: Padding(
+                                  padding: EdgeInsets.only(top: height * 0.023),
+                                  child: ListView.separated(
+                                      physics: const BouncingScrollPhysics(),
+                                      itemBuilder: (context, index) => item(ordersCubit,
+                                          constrain.maxHeight,
+                                          constrain.maxWidth,
+                                          OrdersCubit.get(context)
+                                              .ordersModel!
+                                              .ordersInfo![index],
+                                          context),
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(
+                                            height: constrain.maxWidth * 0.01 +
+                                                constrain.maxHeight * 0.02,
+                                          ),
+                                      itemCount: OrdersCubit.get(context)
+                                          .ordersModel!
+                                          .ordersInfo!
+                                          .length),
+                                ),
+                            )
                             : Center(
                                 child: Text(
                                   "لا يوجد طلبات",
