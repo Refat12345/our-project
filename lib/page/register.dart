@@ -46,7 +46,7 @@ class Register extends StatelessWidget {
                   }else
                   {
 
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> GetVendorShop()), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const GetVendorShop()), (route) => false);
                   }
 
                   }
@@ -265,7 +265,9 @@ class Register extends StatelessWidget {
                                       onTap: onTap,
                                     ),
                                 fallback: (context) => const Center(
-                                      child: CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation<Color>(primary),
+                                      ),
                                     ))
                           ],
                         ),
