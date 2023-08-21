@@ -31,25 +31,32 @@ class Register extends StatelessWidget {
         body: BlocProvider(
             create: (context) => RegisterCubit(),
             child: BlocConsumer<RegisterCubit, RegisterState>(
-              listener: (context, state) {
+              listener: (context, state) async {
                 RegisterCubit registerCubit = RegisterCubit.get(context);
                 if (state is SuccessState) {
-                   CacheHelper.saveData(key: "bool", value: false);
-                  if (state.registerModel.status == true) {
-                  if(registerCubit.values==-1)
+                  if( state.registerModel.message=='الرقم مستخدم مسبقا')
                   {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return VerifyCode(phoneNumber.text);
-                        });
+                    flutterToastt(state.registerModel.message, 'error', heightScreen, "gravity");
                   }else
                   {
+                   await CacheHelper.saveData(key: "bool", value: false);
+                    if (state.registerModel.status == true) {
+                      if(registerCubit.values==-1)
+                      {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return VerifyCode(phoneNumber.text);
+                            });
+                      }else
+                      {
 
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const GetVendorShop()), (route) => false);
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const GetVendorShop()), (route) => false);
+                      }
+
+                    }
                   }
 
-                  }
                 }
               },
               builder: (context, state) {
