@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/page/user/product_details.dart';
+import 'package:onlytest/page/user/product_details.dart';
 import '../../bloc/getproductshopid/getproduct_cubit.dart';
 import '../../component/helper.dart';
 import '../../model/getproductbyshop.dart';
@@ -34,6 +34,11 @@ class StoreProduct extends StatelessWidget {
 
           if (state is Open_CloseSuccessState) {
             flutterToast(state.model.message.toString(), "sucess");
+          }
+
+          if(state is deleteproductSuccessState){
+            flutterToast(state.model.message.toString(), "sucess");
+
           }
 
           // TODO: implement listener
@@ -128,7 +133,8 @@ class StoreProduct extends StatelessWidget {
                                 return items;
                               },
                             ),
-                          ]),
+                          ]
+                      ),
                       body: getProductModel.productsData!.isEmpty? Center(child: Text('لا يوجد منتجات',style: TextStyle(
                           fontFamily: "Cairo",
                           fontSize: constraints.maxHeight * 0.02 + constraints.maxWidth * 0.02,
@@ -150,6 +156,38 @@ class StoreProduct extends StatelessWidget {
                               ),
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
+                                  onLongPress: () {
+                                    if (type == "vendor") {
+                                      showDialog(
+                                        context: context,
+                                        builder: (contextt) {
+                                          return AlertDialog(
+                                            title: Text("اختر العملية المطلوبة"),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ListTile(
+                                                  title: Text("حذف المنتج"),
+                                                  onTap: () {
+
+                                                    GetproductCubit.get(context).deleteproduct(id:getProductModel.productsData?[index].id);
+
+                                                  },
+                                                ),
+
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+
+
+
+
+
+
                                   onTap: () {
                                     Navigator.push(
                                         context,

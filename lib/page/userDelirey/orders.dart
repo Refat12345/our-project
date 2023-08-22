@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/orders/orders_cubit.dart';
-import 'package:untitled1/component/helper.dart';
-import 'package:untitled1/model/orders/orders.dart';
-import 'package:untitled1/network/local/cache.dart';
-import 'package:untitled1/page/userDelirey/oredr_details.dart';
-import 'package:untitled1/theme/colors.dart';
+
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
+import '../../bloc/orders/orders_cubit.dart';
 import '../../bloc/orders/orders_state.dart';
+import '../../component/helper.dart';
+import '../../model/orders/orders.dart';
+import '../../network/local/cache.dart';
+import '../../theme/colors.dart';
+import 'oredr_details.dart';
 
 class Orders extends StatelessWidget {
   Orders(this.type,{super.key});
@@ -25,9 +26,9 @@ class Orders extends StatelessWidget {
         {
           if(type=="orders")
           {
-            return OrdersCubit()..getHistoryOrders();
+            return OrdersCubit()..getHistoryOrders()..soso(context)..intialstate(context);
           }else {
-            return  OrdersCubit()..getApprovedOrders();
+            return  OrdersCubit()..getApprovedOrders()..soso(context)..intialstate(context);
           }
         },
         child: BlocConsumer<OrdersCubit, OrdersState>(

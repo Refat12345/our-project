@@ -4,6 +4,7 @@ import '../../bloc/getproductcategory/getproduct_cubitt.dart';
 import '../../component/helper.dart';
 import '../../model/getfavouritemodell.dart';
 import '../../network/endpoint.dart';
+import 'favshop.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({Key? key}) : super(key: key);
@@ -27,12 +28,47 @@ class FavouriteScreen extends StatelessWidget {
           return Getfavouritemodel != null
               ? Scaffold(
                   appBar: AppBar(
+
                     backgroundColor: green,
                     centerTitle: true,
                     title: const Text(
                       'المفضلة ',
                       style: TextStyle(fontFamily: 'Cairo'),
                     ),
+                      actions: [
+                        PopupMenuButton<String>(
+                          onSelected: (value) {
+                            if (value == 'ShopFavourite') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      FavouriteShop(),
+                                ),
+                              );
+                            }
+                          },
+                          itemBuilder: (BuildContext context) {
+
+                            List<PopupMenuItem<String>> items = [];
+
+                            items.add(
+                              PopupMenuItem(
+                                value: 'ShopFavourite',
+                                child: ListTile(
+                                  leading: Icon(Icons.store_rounded),
+                                  title: Text(' المتاجر المفضلة'),
+                                  subtitle: Text('المتاجر المفضلة'),
+                                ),
+                              ),
+                            );
+
+
+                            return items;
+                          },
+                        ),
+                      ]
+
                   ),
                   body: Container(
                     color: Colors.white60,

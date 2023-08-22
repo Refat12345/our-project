@@ -19,15 +19,15 @@ class ProductDetailsModel {
 }
 
 class ProductInfo {
-  int? id;
-  int? shopId;
-  String? name;
-  String? description;
+  var id;
+  var shopId;
+  var name;
+  var description;
   var price;
   List<String>? pictures;
-  int? quantity;
-  int? inFavorite;
-  String ? avgStars;
+  var quantity;
+  var inFavorite;
+  var avgStars;
 
   ProductInfo({
     this.id,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/location/add_location_cubit.dart';
-import 'package:untitled1/component/helper.dart';
+
 import '../../bloc/getstore/getstore_cubit.dart';
 import '../../bloc/location/add_location_state.dart';
 import '../../model/getvendorshop.dart';
@@ -208,10 +207,10 @@ class GetVendorShop extends StatelessWidget {
                                                                       color: Colors
                                                                           .yellow),
                                                                   Text(
-                                                                      getVendorShopModel
-                                                                          ?.shopsData![
-                                                                      index]
-                                                                          .avgStars ??
+                                                                      // getVendorShopModel
+                                                                      //     ?.shopsData![
+                                                                      // index]
+                                                                      //     .avgStars ??
                                                                           '5',
                                                                       style:
                                                                       TextStyle(

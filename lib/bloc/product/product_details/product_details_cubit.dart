@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/product/product_details/product_details_state.dart';
+import 'package:onlytest/bloc/product/product_details/product_details_state.dart';
 
 
 

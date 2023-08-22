@@ -1,13 +1,14 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/register/register_cubit.dart';
-import 'package:untitled1/network/local/cache.dart';
-import 'package:untitled1/page/user/verify_code.dart';
-import 'package:untitled1/page/vendor/getvendorshop.dart';
+import 'package:onlytest/page/user/verify_code.dart';
+import 'package:onlytest/page/vendor/getvendorshop.dart';
+
+import '../bloc/register/register_cubit.dart';
 import '../bloc/register/register_state.dart';
 import '../component/helper.dart';
 import '../component/widget.dart';
+import '../network/local/cache.dart';
 import '../theme/colors.dart';
 
 class Register extends StatelessWidget {
@@ -29,34 +30,27 @@ class Register extends StatelessWidget {
 
     return Scaffold(
         body: BlocProvider(
-            create: (context) => RegisterCubit(),
+            create: (context) => RegisterCubit()..getdevicetoken(),
             child: BlocConsumer<RegisterCubit, RegisterState>(
-              listener: (context, state) async {
+              listener: (context, state) {
                 RegisterCubit registerCubit = RegisterCubit.get(context);
                 if (state is SuccessState) {
-                  if( state.registerModel.message=='الرقم مستخدم مسبقا')
-                  {
-                    flutterToastt(state.registerModel.message, 'error', heightScreen, "gravity");
-                  }else
-                  {
-                   await CacheHelper.saveData(key: "bool", value: false);
-                    if (state.registerModel.status == true) {
-                      if(registerCubit.values==-1)
-                      {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return VerifyCode(phoneNumber.text);
-                            });
-                      }else
-                      {
+                  CacheHelper.saveData(key: "bool", value: false);
+                  if (state.registerModel.status == true) {
+                    if(registerCubit.values==-1)
+                    {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return VerifyCode(phoneNumber.text);
+                          });
+                    }else
+                    {
 
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const GetVendorShop()), (route) => false);
-                      }
-
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const GetVendorShop()), (route) => false);
                     }
-                  }
 
+                  }
                 }
               },
               builder: (context, state) {
@@ -84,10 +78,10 @@ class Register extends StatelessWidget {
                           children: <Widget>[
                             Center(
                                 child: SizedBox(
-                              height: constrain.maxHeight / 3,
-                              width: constrain.maxWidth / 1.2,
-                              child: getSvgIcon("welcome2.svg"),
-                            )),
+                                  height: constrain.maxHeight / 3,
+                                  width: constrain.maxWidth / 1.2,
+                                  child: getSvgIcon("welcome2.svg"),
+                                )),
                             SizedBox(
                               height: constrain.maxHeight / 80,
                             ),
@@ -106,14 +100,14 @@ class Register extends StatelessWidget {
                               height: constrain.maxHeight > 1300
                                   ? constrain.maxHeight / 17.7
                                   : (constrain.maxHeight > 1000
-                                      ? constrain.maxHeight / 16.6
-                                      : (constrain.maxHeight > 750 &&
-                                              constrain.maxHeight < 950)
-                                          ? constrain.maxHeight / 14.5
-                                          : constrain.maxHeight >= 950 &&
-                                                  constrain.maxHeight <= 1000
-                                              ? constrain.maxHeight / 15
-                                              : constrain.maxHeight / 12.5),
+                                  ? constrain.maxHeight / 16.6
+                                  : (constrain.maxHeight > 750 &&
+                                  constrain.maxHeight < 950)
+                                  ? constrain.maxHeight / 14.5
+                                  : constrain.maxHeight >= 950 &&
+                                  constrain.maxHeight <= 1000
+                                  ? constrain.maxHeight / 15
+                                  : constrain.maxHeight / 12.5),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   color: textFieldBg),
@@ -121,69 +115,66 @@ class Register extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5.0, right: 5),
-                                  child: Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: DropdownButtonFormField(
-                                        iconSize: constrain.maxHeight > 1300
-                                            ? constrain.maxHeight * 0.045
-                                            : (constrain.maxHeight > 1000
-                                                ? constrain.maxHeight * 0.048
-                                                : (constrain.maxHeight > 750 &&
-                                                        constrain.maxHeight < 950)
-                                                    ? constrain.maxHeight * 0.038
-                                                    : constrain.maxHeight >=
-                                                                950 &&
-                                                            constrain.maxHeight <=
-                                                                1000
-                                                        ? constrain.maxHeight *
-                                                            0.09
-                                                        : constrain.maxHeight *
-                                                            0.042),
-                                        iconEnabledColor: primary,
-                                        style: TextStyle(
-                                            fontSize: constrain.maxHeight * 0.02,
-                                            color: Colors.black),
-                                        decoration: const InputDecoration(
-                                          border: InputBorder.none,
+                                  child: DropdownButtonFormField(
+                                      iconSize: constrain.maxHeight > 1300
+                                          ? constrain.maxHeight * 0.045
+                                          : (constrain.maxHeight > 1000
+                                          ? constrain.maxHeight * 0.048
+                                          : (constrain.maxHeight > 750 &&
+                                          constrain.maxHeight < 950)
+                                          ? constrain.maxHeight * 0.038
+                                          : constrain.maxHeight >=
+                                          950 &&
+                                          constrain.maxHeight <=
+                                              1000
+                                          ? constrain.maxHeight *
+                                          0.09
+                                          : constrain.maxHeight *
+                                          0.042),
+                                      iconEnabledColor: primary,
+                                      style: TextStyle(
+                                          fontSize: constrain.maxHeight * 0.02,
+                                          color: Colors.black),
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                      ),
+                                      value: "-1",
+                                      items: const [
+                                        DropdownMenuItem(
+                                          alignment:
+                                          AlignmentDirectional.bottomEnd,
+                                          value: "-1",
+                                          child: Text(
+                                            'زبون',
+                                            textDirection: TextDirection.rtl,
+                                            style:
+                                            TextStyle(fontFamily: "Cairo"),
+                                          ),
                                         ),
-                                        value: "-1",
-                                        items: const [
-                                          DropdownMenuItem(
-                                            alignment:
-                                                AlignmentDirectional.bottomEnd,
-                                            value: "-1",
-                                            child: Text(
-                                              'زبون',
-                                              textDirection: TextDirection.rtl,
-                                              style:
-                                                  TextStyle(fontFamily: "Cairo"),
-                                            ),
+                                        DropdownMenuItem(
+                                          alignment:
+                                          AlignmentDirectional.bottomEnd,
+                                          value: "1",
+                                          child: Text(
+                                            'صاحب متجر',
+                                            textDirection: TextDirection.rtl,
+                                            style:
+                                            TextStyle(fontFamily: "Cairo"),
                                           ),
-                                          DropdownMenuItem(
-                                            alignment:
-                                                AlignmentDirectional.bottomEnd,
-                                            value: "1",
-                                            child: Text(
-                                              'صاحب متجر',
-                                              textDirection: TextDirection.rtl,
-                                              style:
-                                                  TextStyle(fontFamily: "Cairo"),
-                                            ),
-                                          ),
-                                        ],
-                                        onChanged: (value) {
-                                          if (value == "1") {
-                                            RegisterCubit.get(context).values = 1;
-                                            RegisterCubit.get(context)
-                                                .removeField();
-                                          } else {
-                                            RegisterCubit.get(context).values =
-                                                -1;
-                                            RegisterCubit.get(context)
-                                                .removeField();
-                                          }
-                                        }),
-                                  ),
+                                        ),
+                                      ],
+                                      onChanged: (value) {
+                                        if (value == "1") {
+                                          RegisterCubit.get(context).values = 1;
+                                          RegisterCubit.get(context)
+                                              .removeField();
+                                        } else {
+                                          RegisterCubit.get(context).values =
+                                          -1;
+                                          RegisterCubit.get(context)
+                                              .removeField();
+                                        }
+                                      }),
                                 ),
                               ),
                             ),
@@ -193,34 +184,34 @@ class Register extends StatelessWidget {
                             RegisterCubit.get(context).values == 1
                                 ? const SizedBox()
                                 : Text(
-                                    "اسم المستخدم",
-                                    style: TextStyle(
-                                        fontSize: fontSize,
-                                        color: grey,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "Cairo"),
-                                  ),
+                              "اسم المستخدم",
+                              style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: grey,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Cairo"),
+                            ),
                             RegisterCubit.get(context).values == 1
                                 ? const SizedBox()
                                 : SizedBox(
-                                    height: constrain.maxHeight / 73,
-                                  ),
+                              height: constrain.maxHeight / 73,
+                            ),
                             RegisterCubit.get(context).values == 1
                                 ? const SizedBox()
                                 : Filed(
-                                    formKey: nameFormKey,
-                                    onChange: (value) {
-                                      nameFormKey.currentState!.validate();
-                                    },
-                                    controller: name,
-                                    hintText: "أدخل اسم المستخدم",
-                                    height: constrain.maxHeight,
-                                    login: false),
+                                formKey: nameFormKey,
+                                onChange: (value) {
+                                  nameFormKey.currentState!.validate();
+                                },
+                                controller: name,
+                                hintText: "أدخل اسم المستخدم",
+                                height: constrain.maxHeight,
+                                login: false),
                             RegisterCubit.get(context).values == 1
                                 ? const SizedBox()
                                 : SizedBox(
-                                    height: constrain.maxHeight / 39,
-                                  ),
+                              height: constrain.maxHeight / 39,
+                            ),
                             Text(
                               "رقم الهاتف",
                               style: TextStyle(
@@ -270,15 +261,15 @@ class Register extends StatelessWidget {
                             ConditionalBuilder(
                                 condition: state is! LoadingState,
                                 builder: (context) => Bottom(
-                                      text: "أنشئ حساب",
-                                      height: constrain.maxHeight,
-                                      onTap: onTap,
-                                    ),
+                                  text: "أنشئ حساب",
+                                  height: constrain.maxHeight,
+                                  onTap: onTap,
+                                ),
                                 fallback: (context) => const Center(
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(primary),
-                                      ),
-                                    ))
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(primary),
+                                  ),
+                                ))
                           ],
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,13 +15,29 @@ class LoginCubit extends Cubit<LoginState> {
 
   static LoginCubit get(context) => BlocProvider.of(context);
 
+
+
+  var fbm = FirebaseMessaging.instance;
+  var k;
+  void getdevicetoken() {
+    fbm.getToken().then((value) {
+      print('=========================================');
+      print('token is ');
+      k = value;
+      print(value);
+      print('=========================================');
+
+    }
+    );
+  }
+
   LoginModel? loginModel;
 
   void login({required phoneNumber, required password}) {
     emit(LoadingState());
     HttpHelper.postData(
             url: "login",
-            data: {"phone_number": phoneNumber, "password": password}
+            data: {"phone_number": phoneNumber, "password": password,"device_token":k}
 
     )
         .then((value) {

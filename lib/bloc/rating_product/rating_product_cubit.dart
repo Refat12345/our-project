@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/rating_product/rating_product_state.dart';
-import 'package:untitled1/network/remote/http.dart';
+import 'package:onlytest/bloc/rating_product/rating_product_state.dart';
+
+import '../../network/remote/http.dart';
+
 
 class RatingProductCubit extends Cubit<RatingProductState>
 {

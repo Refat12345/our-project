@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/location/add_location_cubit.dart';
 import '../../bloc/addstore/addstore_state.dart';
+import '../../bloc/location/add_location_cubit.dart';
 import '../../bloc/location/add_location_state.dart';
 import '../../component/helper.dart';
 import '../../component/textfield.dart';
@@ -19,7 +19,7 @@ class AddStore extends StatelessWidget {
     final _phonenumbercontroller = TextEditingController();
     final _citycontroller = TextEditingController();
     return BlocProvider(
-      create: (BuildContext context) => AddstoreCubit(),
+      create: (BuildContext context) => AddstoreCubit()..getcategory(),
       child: BlocConsumer<AddstoreCubit, AddstoreState>(
         builder: (context, state) {
           File? image = AddstoreCubit.get(context).addImage;
@@ -169,6 +169,8 @@ class AddStore extends StatelessWidget {
                                 }).toList(),
                                 onChanged: (newvalue) {
                                   listcubit.changeitemselected(newvalue);
+                                  listcubit.prints();
+
                                 },
                               ),
                             ),

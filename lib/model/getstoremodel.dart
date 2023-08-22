@@ -186,17 +186,17 @@ class GetStoreModel {
 }
 
 class ShopsData {
-  int? id;
-  String? name;
-  String? description;
-  String? phoneNumber;
-  String? photo;
-  int? isOpen;
-  int? shopState;
-  Location? location;
-  Vendor? vendor;
-  String? avgStars;
-  int? inFavorite;
+  var  id;
+  var name;
+  var description;
+  var phoneNumber;
+  var photo;
+  var isOpen;
+  var shopState;
+  var location;
+  var vendor;
+  var avgStars;
+  var inFavorite;
 
   ShopsData(
       {this.id,
@@ -250,15 +250,15 @@ class ShopsData {
 }
 
 class Location {
-  int? id;
-  String? street;
-  String? city;
-  String? building;
-  String? floor;
-  String? latitude;
-  String? longitude;
-  String? createdAt;
-  String? updatedAt;
+  var id;
+  var street;
+  var city;
+  var building;
+  var floor;
+  var latitude;
+  var longitude;
+  var createdAt;
+  var updatedAt;
 
   Location(
       {this.id,
@@ -299,11 +299,11 @@ class Location {
 }
 
 class Vendor {
-  int? id;
-  String? phoneNumber;
-  String? password;
-  String? createdAt;
-  String? updatedAt;
+  var id;
+  var phoneNumber;
+  var password;
+  var createdAt;
+  var updatedAt;
 
   Vendor(
       {this.id,

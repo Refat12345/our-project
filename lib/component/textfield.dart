@@ -7,7 +7,6 @@ Widget TextFormFieldCompany(
     )
 {
   return TextFormField(
-    textDirection: TextDirection.rtl,
     controller: controller,
     cursorColor: Colors.teal,
     decoration: InputDecoration(
@@ -16,7 +15,6 @@ Widget TextFormFieldCompany(
       contentPadding: const EdgeInsets.all(17),
     //  label: Text(labeText),
       hintText: hintText,
-      hintTextDirection: TextDirection.rtl,
       hintStyle: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,

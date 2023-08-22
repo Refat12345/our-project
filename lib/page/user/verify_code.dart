@@ -2,11 +2,12 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/verify_code/verify_code_cubit.dart';
-import 'package:untitled1/home_page.dart';
+
+import '../../bloc/verify_code/verify_code_cubit.dart';
 import '../../bloc/verify_code/verify_code_state.dart';
 import '../../component/helper.dart';
 import '../../component/widget.dart';
+import '../../home_page.dart';
 import '../../network/local/cache.dart';
 import '../login.dart';
 

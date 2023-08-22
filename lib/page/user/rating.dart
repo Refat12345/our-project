@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:untitled1/bloc/rating_product/rating_product_cubit.dart';
-import 'package:untitled1/component/helper.dart';
+
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
+import '../../bloc/rating_product/rating_product_cubit.dart';
 import '../../bloc/rating_product/rating_product_state.dart';
+import '../../component/helper.dart';
 import '../../theme/colors.dart';
 
 class RatingScreen extends StatelessWidget {

@@ -131,19 +131,7 @@ class AddProduct extends StatelessWidget {
                               controller: _quantitycontroller,
                               hintText: 'ادخل الكمية '),
                         ),
-                        const Text(
-                          'ادخل الوزن  ',
-                          style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 16,
-                              color: secondaryColor),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: TextFormFieldCompany(
-                              controller: _weightcontroller,
-                              hintText: 'ادخل الوزن '),
-                        ),
+
                         const Text(
                           'ادخل الماركة  ',
                           style: TextStyle(
@@ -167,7 +155,6 @@ class AddProduct extends StatelessWidget {
                                   name: _nametextcontroller.text,
                                   description: _descriptiontextcontroller.text,
                                   price: _pricecontroller.text,
-                                  weight: _weightcontroller.text,
                                   quantity: _quantitycontroller.text,
                                   brand_name: _brandtextcontroller.text,
                                   shopid: id,

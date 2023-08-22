@@ -1,14 +1,16 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/home_page.dart';
-import 'package:untitled1/page/register.dart';
-import 'package:untitled1/page/userDelirey/orders.dart';
-import 'package:untitled1/page/vendor/getvendorshop.dart';
+import 'package:onlytest/page/register.dart';
+import 'package:onlytest/page/userDelirey/orders.dart';
+import 'package:onlytest/page/vendor/getvendorshop.dart';
+
+
 import '../bloc/login/login_cubit.dart';
 import '../bloc/login/login_state.dart';
 import '../component/helper.dart';
 import '../component/widget.dart';
+import '../home_page.dart';
 import '../network/local/cache.dart';
 import '../theme/colors.dart';
 
@@ -36,7 +38,7 @@ class Login extends StatelessWidget {
               child: Form(
                 key: formKey,
                 child: BlocProvider(
-                  create: (context) => LoginCubit(),
+                  create: (context) => LoginCubit()..getdevicetoken(),
                   child: BlocConsumer<LoginCubit, LoginState>(
                       builder: (context, state) {
                     onTap() {
@@ -168,7 +170,7 @@ class Login extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                                  builder: (context) =>  HomePage()));
                         }
                       } else {
                         flutterToast(

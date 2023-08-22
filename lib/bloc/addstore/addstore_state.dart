@@ -17,3 +17,8 @@ class ErrorState extends AddstoreState{}
 class ImageSuccess extends AddstoreState{}
 class ImageError extends AddstoreState{}
 
+class error extends AddstoreState{}
+
+class sucess extends AddstoreState{}
+class loading extends AddstoreState{}
+

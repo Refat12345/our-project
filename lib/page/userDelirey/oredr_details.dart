@@ -2,15 +2,16 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/bloc/orders/orders_cubit.dart';
-import 'package:untitled1/model/orders/order_details.dart';
-import 'package:untitled1/network/local/cache.dart';
+
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../../bloc/orders/order_details_cubit.dart';
 import '../../bloc/orders/order_details_state.dart';
+import '../../bloc/orders/orders_cubit.dart';
 import '../../component/helper.dart';
+import '../../model/orders/order_details.dart';
+import '../../network/local/cache.dart';
 import '../../theme/colors.dart';
-import 'package:untitled1/page/delivery/map.dart';
+import '../delivery/map.dart';
 
 class OrderDetails extends StatelessWidget {
   int id;

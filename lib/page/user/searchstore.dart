@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/component/helper.dart';
-import 'package:untitled1/page/user/storeproduct.dart';
+import 'package:onlytest/page/user/storeproduct.dart';
+
 
 import '../../bloc/searchcubit/searchstore_cubit.dart';
+import '../../component/helper.dart';
 import '../../model/searchstoremodel.dart';
 
 class SearchStore extends StatelessWidget {

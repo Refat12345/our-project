@@ -4,8 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 import '../../model/addstore.dart';
+import '../../model/getcategory.dart';
 import '../../network/endpoint.dart';
 import '../../network/local/cache.dart';
+import '../../network/remote/http.dart';
 import 'addstore_state.dart';
 import 'package:http/http.dart' as http ;
 import 'package:image_picker/image_picker.dart';
@@ -19,7 +21,47 @@ class AddstoreCubit extends Cubit<AddstoreState> {
     'food',
     'electric',
   ];
+  Categorymodel? getCategorymodel;
 
+
+
+
+  void getcategory() {
+    emit(loading());
+    HttpHelper.getData(
+      url: "getAllCategories",)
+
+        .then((value) {
+      var responseData = jsonDecode(value.body);
+      var categoryList = responseData['categories'] as List<dynamic>;
+      var  categories = categoryList
+          .map((category) => Categories.fromJson(category))
+          .toList();
+      items = categories.map((category) => category.name!).toList();
+
+      getCategorymodel = Categorymodel.fromJson(jsonDecode(value.body));
+
+
+      emit(sucess());
+    }).catchError((onError) {
+      print(onError.toString());
+      emit(error());
+    });
+  }
+
+
+  var catid = 0;
+
+  void prints(){
+    print(selectitem);
+    print(getCategorymodel!.categories?[1].name);
+    Categories categoriess=getCategorymodel!.categories!.firstWhere((element) => element.name==selectitem);
+    catid = categoriess.id!;
+
+    print("id is ${categoriess.id}");
+
+
+  }
   addproductmodel? Addmodel ;
 
 
@@ -51,7 +93,7 @@ class AddstoreCubit extends Cubit<AddstoreState> {
     request.fields['city'] = city;
     request.fields['latitude'] = '$latitude';
     request.fields['longitude'] = '$longitude';
-    request.fields['category_id'] = category_id.toString();
+    request.fields['category_id'] = catid.toString();
     if (addImage != null) {
       request.files.add(
         await http.MultipartFile.fromPath('photo', addImage!.path),

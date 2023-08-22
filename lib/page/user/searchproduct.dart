@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/page/user/product_details.dart';
+import 'package:onlytest/page/user/product_details.dart';
 import '../../bloc/searchcubit/searchstore_cubit.dart';
 import '../../model/searchproductmodel.dart';
 import '../../network/endpoint.dart';

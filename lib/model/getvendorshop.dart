@@ -31,7 +31,7 @@ class ShopsData {
   int? shopState;
   Location? location;
   Vendor? vendor;
-  Null? avgStars;
+  //Null? avgStars;
 
   ShopsData(
       {this.id,
@@ -43,7 +43,8 @@ class ShopsData {
         this.shopState,
         this.location,
         this.vendor,
-        this.avgStars});
+        //this.avgStars
+      });
 
   ShopsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -58,7 +59,7 @@ class ShopsData {
         : null;
     vendor =
     json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
-    avgStars = json['avg_stars'];
+    //avgStars = json['avg_stars'];
   }
 
   Map<String, dynamic> toJson() {
@@ -76,7 +77,7 @@ class ShopsData {
     if (this.vendor != null) {
       data['vendor'] = this.vendor!.toJson();
     }
-    data['avg_stars'] = this.avgStars;
+   // data['avg_stars'] = this.avgStars;
     return data;
   }
 }

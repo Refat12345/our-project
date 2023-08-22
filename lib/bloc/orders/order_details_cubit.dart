@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/model/orders/order_details.dart';
+import '../../model/orders/order_details.dart';
 import '../../network/remote/http.dart';
 import 'order_details_state.dart';
 

@@ -185,7 +185,7 @@ class PinCode extends StatelessWidget {
 
   Widget bottom;
 
-   PinCode(
+  PinCode(
       {super.key,
         required this.controller,
         required this.pinLength,

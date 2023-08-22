@@ -2,7 +2,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:untitled1/network/local/cache.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../../bloc/product/add_product_to_cart/add_product_to_cart_cubit.dart';
 import '../../bloc/product/add_product_to_cart/add_product_to_cart_state.dart';
@@ -10,6 +9,7 @@ import '../../bloc/product/product_details/product_details_cubit.dart';
 import '../../bloc/product/product_details/product_details_state.dart';
 import '../../component/helper.dart';
 import '../../model/product_details/product_details.dart';
+import '../../network/local/cache.dart';
 import '../../theme/colors.dart';
 import 'rating.dart';
 

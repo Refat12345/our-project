@@ -85,7 +85,7 @@ class EditstoreeCubit extends Cubit<EditstoreeState> {
         response.stream.transform(utf8.decoder).listen((value) {
           Addmodel = addproductmodel.fromJson(jsonDecode(value));
           print(Addmodel?.message);
-          emit(EditstoreSuccessState());
+          emit(EditstoreSuccessState(Addmodel!));
         });
 
 

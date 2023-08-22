@@ -9,8 +9,8 @@ class EditstoreLoadingstate extends EditstoreeState {}
 class Editstoredroplist extends EditstoreeState {}
 
 class EditstoreSuccessState extends EditstoreeState{
-  // addproductmodel model;
-  // SuccessState(this.model);
+  addproductmodel model;
+  EditstoreSuccessState(this.model);
 
 }
 class EditstoreErrorState extends EditstoreeState{}

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/page/user/cart.dart';
-import 'package:untitled1/page/user/searchstore.dart';
-import 'package:untitled1/page/user/storeproduct.dart';
+import 'package:onlytest/page/user/searchstore.dart';
+import 'package:onlytest/page/user/storeproduct.dart';
+
+
 import '../../bloc/getstore/getstore_cubit.dart';
+import '../../component/helper.dart';
+import '../../model/cart/cart_model.dart';
 import '../../model/getcategory.dart';
 import '../../model/getstoremodel.dart';
 import '../../network/endpoint.dart';
 import '../../theme/colors.dart';
+import 'cart.dart';
 
 class StoreScreen extends StatelessWidget {
   const StoreScreen({Key? key}) : super(key: key);
@@ -37,10 +41,12 @@ class StoreScreen extends StatelessWidget {
       double screenWidth = MediaQuery.of(context).size.width;
       double screenHeight = MediaQuery.of(context).size.height;
 
+
+
       return BlocProvider(
         create: (context) => GetstoreCubit()
           ..getstorebycategory(id: 2)
-          ..getcategory(),
+          ..getcategory()..getCart(),
         child: BlocConsumer<GetstoreCubit, GetstoreState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -50,6 +56,9 @@ class StoreScreen extends StatelessWidget {
                 GetstoreCubit.get(context).getStoreModel;
             Categorymodel? getcategorymodel =
                 GetstoreCubit.get(context).getCategorymodel;
+        //    CartModel? cartModel = GetstoreCubit.get(context).cartModel;
+            int ? numberofitemincart = GetstoreCubit.get(context).num;
+
 
             return ((getStoreModel != null) && (getcategorymodel != null))
                 ? Container(
@@ -71,37 +80,56 @@ class StoreScreen extends StatelessWidget {
                             },
                             child: FractionallySizedBox(
                               widthFactor: 0.9,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: screenWidth * 0.018),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Row(
-                                  textDirection: TextDirection.rtl,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.search_outlined,
-                                        size: screenWidth * 0.06,
+                              child: Directionality(
+                                textDirection: TextDirection.rtl,
+
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.018),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Row(
+                                    textDirection: TextDirection.rtl,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.search_outlined,
+                                          size: screenWidth * 0.06,
+                                        ),
+                                        onPressed: () {},
                                       ),
-                                      onPressed: () {},
-                                    ),
-                                    Expanded(
-                                      child: TextField(
-                                        textDirection: TextDirection.rtl,
-                                        enabled: false,
-                                        decoration: InputDecoration(
-                                          hintText: 'البحث ',
-                                          hintStyle: TextStyle(
-                                              fontSize: screenWidth * 0.04,
-                                              fontFamily: 'Cairo'),
-                                          border: InputBorder.none,
+                                      Expanded(
+                                        child: TextField(
+                                          textDirection: TextDirection.rtl,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                            hintText: 'البحث ',
+                                            hintStyle: TextStyle(
+                                                fontSize: screenWidth * 0.04,
+                                                fontFamily: 'Cairo'),
+                                            border: InputBorder.none,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Badge.count(
+                                        count: numberofitemincart ?? 100 ,
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.shopping_cart,
+                                            size: screenWidth * 0.08,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => Cart()));
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -242,146 +270,124 @@ class StoreScreen extends StatelessWidget {
                                                 0,
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          return SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.35,
-                                            child: InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        StoreProduct(
-                                                            storeid: getStoreModel
-                                                                    .shopsData![
-                                                                        index]
-                                                                    .id ??
-                                                                0),
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xFFF4F4F4),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                                child: Row(
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                          return Card(
+                                              color: Colors.white,
+                                              child: Padding(
+                                              padding: EdgeInsets.only(left: screenHeight * 0.01),
+                                                child: Stack(
                                                   children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                      child: Image.network(
-                                                        imageShopUrl +
-                                                            (getStoreModel
-                                                                    .shopsData![
-                                                                        index]
-                                                                    .photo ??
-                                                                'sd'),
-                                                        fit: BoxFit.cover,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.35,
-                                                        height: double.infinity,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 20),
-                                                    Expanded(
-                                                      child: Column(
-                                                        textDirection:
-                                                            TextDirection.rtl,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 6,
+                                                    Row(
+                                                      textDirection: TextDirection.rtl,
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                                                          child: Image(
+                                                            image: NetworkImage(EndPoint.imageShopUrl +
+                                                                getStoreModel.shopsData![index].photo!),
+                                                            fit: BoxFit.cover,
+                                                            height: 100,
+                                                            width: 100,
                                                           ),
-                                                          Text(
-                                                            getStoreModel
-                                                                    .shopsData![
-                                                                        index]
-                                                                    .name ??
-                                                                'ds',
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                        ),
+                                                        SizedBox(
+                                                          width: screenWidth * 0.026,
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          textDirection: TextDirection.rtl,
+                                                          children: [
+                                                            Text(
+                                                              "${getStoreModel.shopsData![index].name}",
+                                                              style: TextStyle(
+                                                                  fontFamily: "Cairo",
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: screenHeight * 0.015 + screenWidth * 0.01),
                                                             ),
-                                                          ),
-                                                          SizedBox(height: 10),
-                                                          Row(
-                                                            textDirection:
-                                                                TextDirection
-                                                                    .rtl,
-                                                            children: [
-                                                              Icon(Icons
-                                                                  .location_on),
-                                                              SizedBox(
-                                                                  width: 10),
-                                                              Text(
-                                                                getStoreModel
-                                                                        .shopsData![
-                                                                            index]
-                                                                        .location
-                                                                        ?.city ??
-                                                                    'ds',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      600],
+                                                            SizedBox(
+                                                              height: screenHeight * 0.0004,
+                                                            ),
+                                                            Text(
+                                                              "${getStoreModel.shopsData![index].location!.city}",
+                                                              style: TextStyle(
+                                                                  fontFamily: "Cairo",
+                                                                  fontSize: screenHeight * 0.015 + screenWidth * 0.01,
+                                                                  fontWeight: FontWeight.w500),
+                                                            ),
+                                                            SizedBox(
+                                                              height: screenHeight * 0.0004,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.star,
+                                                                  color: Colors.yellow,
+                                                                  size: screenHeight * 0.02 + screenWidth * 0.015,
                                                                 ),
-                                                              ),
-                                                            ],
+                                                                Text(
+                                                                  '5',
+                                                                  style: TextStyle(
+                                                                      fontFamily: "Cairo",
+                                                                      fontSize: screenHeight * 0.015 + screenWidth * 0.01,
+                                                                      color: green,
+                                                                      fontWeight: FontWeight.w600),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                        const Spacer(),
+                                                        Text(
+                                                          'مفتوح',
+                                                          style: TextStyle(
+                                                              fontSize: screenHeight * 0.015 + screenWidth * 0.01,
+                                                              fontFamily: "Cairo",
+                                                              fontWeight: FontWeight.w600,
+                                                              color: green),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Positioned(
+                                                      bottom: MediaQuery.of(context).size.height * 0.001, // Adjust as needed
+                                                      left: MediaQuery.of(context).size.width * 0.000000000001,
+
+
+                                                    child:  IconButton(
+                                                        icon: CircleAvatar(
+                                                          radius: constraints.maxWidth * 0.030,
+                                                          backgroundColor: GetstoreCubit.get(
+                                                              context)
+                                                              .favourites[
+                                                          getStoreModel
+                                                              .shopsData?[index]
+                                                              .id] ==
+                                                              1
+                                                              ? Colors.red
+                                                              : Colors.grey,
+                                                          child: Icon(
+                                                            Icons.favorite,
+                                                            color: Colors.white,
+                                                            size: constraints.maxWidth * 0.05,
                                                           ),
-                                                          SizedBox(height: 10),
-                                                          Row(
-                                                            textDirection:
-                                                                TextDirection
-                                                                    .rtl,
-                                                            children: [
-                                                              Icon(Icons.star,
-                                                                  color: Colors
-                                                                      .yellow),
-                                                              Text(
-                                                                  getStoreModel
-                                                                          .shopsData![
-                                                                              index]
-                                                                          .avgStars ??
-                                                                      '5',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        17,
-                                                                    color: Colors
-                                                                            .grey[
-                                                                        600],
-                                                                  )),
-                                                            ],
-                                                          ),
-                                                        ],
+                                                        ),
+                                                        onPressed: () {
+                                                          GetstoreCubit.get(context)
+                                                              .changefavourite(
+                                                            id: getStoreModel
+                                                                .shopsData?[index].id,
+                                                          );
+                                                        },
                                                       ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
-                                            ),
                                           );
-                                        },
+
+                                          },
+
+
+
                                         separatorBuilder:
                                             (BuildContext context, int index) {
                                           return SizedBox(height: 10);

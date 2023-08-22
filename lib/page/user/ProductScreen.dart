@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/page/user/product_details.dart';
-import 'package:untitled1/page/user/searchproduct.dart';
+import 'package:onlytest/page/user/product_details.dart';
+import 'package:onlytest/page/user/searchproduct.dart';
+
+
 import '../../bloc/getproductcategory/getproduct_cubitt.dart';
 import '../../component/helper.dart';
 import '../../model/getcategory.dart';
@@ -57,36 +59,40 @@ class ProductScreen extends StatelessWidget {
                             },
                             child: FractionallySizedBox(
                               widthFactor: 0.9,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: screenWidth * 0.018),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Row(
-                                  textDirection: TextDirection.rtl,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.search_outlined,
-                                        size: screenWidth * 0.06,
+                              child: Directionality(
+                                textDirection: TextDirection.rtl,
+
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.018),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Row(
+                                    textDirection: TextDirection.rtl,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.search_outlined,
+                                          size: screenWidth * 0.06,
+                                        ),
+                                        onPressed: () {},
                                       ),
-                                      onPressed: () {},
-                                    ),
-                                    Expanded(
-                                      child: TextField(
-                                        enabled: false,
-                                        decoration: InputDecoration(
-                                          hintText: 'البحث ',
-                                          hintStyle: TextStyle(
-                                              fontSize: screenWidth * 0.04,
-                                              fontFamily: 'Cairo'),
-                                          border: InputBorder.none,
+                                      Expanded(
+                                        child: TextField(
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                            hintText: 'البحث ',
+                                            hintStyle: TextStyle(
+                                                fontSize: screenWidth * 0.04,
+                                                fontFamily: 'Cairo'),
+                                            border: InputBorder.none,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

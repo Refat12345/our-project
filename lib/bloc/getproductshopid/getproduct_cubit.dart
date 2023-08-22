@@ -28,7 +28,26 @@ class GetproductCubit extends Cubit<GetproductState> {
 
 
 
+  void deleteproduct({required id} ){
 
+    emit(deleteproductLoadingstate());
+
+    HttpHelper.deleteData(
+      url: "deleteProduct/${id}",
+
+
+    )
+        .then((value) {
+
+      Addmodel = addproductmodel.fromJson(jsonDecode(value.body));
+      print(Addmodel?.message);
+      emit(deleteproductSuccessState(Addmodel!));
+    }).catchError((onError) {
+      print(onError.toString());
+      emit(deleteproductErrorState());
+    });
+
+  }
   void open_closeshop({required id}) {
     emit(Open_CloseLoadingstate());
 
@@ -49,18 +68,6 @@ class GetproductCubit extends Cubit<GetproductState> {
       emit(Open_CloseErrorState());
     });
   }
-
-
-
-
-
-
-
-
-
-
-
-
   void getproductbyshopid({required id,name,price,photo,shopid}) {
     emit(Loadingstate());
 
@@ -88,6 +95,8 @@ class GetproductCubit extends Cubit<GetproductState> {
       emit(ErrorState());
     });
   }
+
+
 
   void changefavourite({required id}) {
     if(favourites[id]==1)
@@ -121,7 +130,6 @@ class GetproductCubit extends Cubit<GetproductState> {
     required  name,
     required  description,
     required  price,
-    required  weight,
     required  quantity,
     required  brand_name,
     required shopid,
@@ -135,7 +143,7 @@ class GetproductCubit extends Cubit<GetproductState> {
     request.fields['name'] = name;
     request.fields['description'] = description;
     request.fields['price'] = price;
-    request.fields['weight'] = weight;
+    request.fields['weight'] = '200';
     request.fields['quantity'] = quantity;
     request.fields['brand_name'] = brand_name;
     request.fields['shop_id'] = shopid.toString();

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 
 import '../../bloc/editstoree/editstoree_cubit.dart';
+import '../../component/helper.dart';
 import '../../component/textfield.dart';
 import '../../model/getshopinfo.dart';
 import '../../network/endpoint.dart';
@@ -20,6 +21,16 @@ class EditStore extends StatelessWidget {
       create: (context) => EditstoreeCubit()..getshopinfo(id: id),
       child: BlocConsumer<EditstoreeCubit, EditstoreeState>(
         listener: (context, state) {
+
+          if(state is EditstoreSuccessState){
+
+            flutterToast(state.model.message.toString(), "sucess");
+
+          }
+
+
+
+
           // TODO: implement listener
         },
         builder: (context, state) {

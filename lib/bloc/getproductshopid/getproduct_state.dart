@@ -46,3 +46,13 @@ class Open_CloseSuccessState extends GetproductState{
   Open_CloseSuccessState(this.model);
 }
 class Open_CloseErrorState extends GetproductState{}
+
+
+class deleteproductLoadingstate extends GetproductState {}
+
+class deleteproductSuccessState extends GetproductState{
+
+  addproductmodel model;
+  deleteproductSuccessState(this.model);
+}
+class deleteproductErrorState extends GetproductState{}
