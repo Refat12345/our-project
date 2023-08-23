@@ -30,4 +30,4 @@ class getfavshopLoadingstate extends GetstoreState {}
 
 class getfavshopSuccessState extends GetstoreState{}
 class getfavshopErrorState extends GetstoreState{}
-
+class StateBloc extends GetstoreState{}

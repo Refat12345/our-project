@@ -29,6 +29,12 @@ class GetstoreCubit extends Cubit<GetstoreState> {
   int? num ;
 
 
+
+
+
+
+
+
   void getCart()  {
     emit(GetCartLoadingState());
      HttpHelper.getData(url: 'viewCart').then((value) {
@@ -54,33 +60,31 @@ class GetstoreCubit extends Cubit<GetstoreState> {
 
 
   void getstorebycategory({required id}) {
-    emit(Loadingstate());
-    HttpHelper.getData(
-            url: "getShopsByCategory/${id}",)
+  getStoreModel=null;
+  emit(Loadingstate());
+  HttpHelper.getData(
+  url: "getShopsByCategory/${id}",)
 
-        .then((value) {
-
-
-
-            getStoreModel = GetStoreModel.fromJson(jsonDecode(value.body));
-
-
-            getStoreModel?.shopsData?.forEach((element) {
-
-              favourites.addAll({
-
-                element.id:element.inFavorite,
-
-              });
-            });
+      .then((value) {
 
 
 
-      emit(SuccessState());
-    }).catchError((onError) {
-      print(onError.toString());
-      emit(ErrorState());
+  getStoreModel = GetStoreModel.fromJson(jsonDecode(value.body));
+
+  getStoreModel?.shopsData?.forEach((element) {
+
+    favourites.addAll({
+
+      element.id:element.inFavorite,
+
     });
+  });
+
+  emit(SuccessState());
+  }).catchError((onError) {
+  print(onError.toString());
+  emit(ErrorState());
+  });
   }
 
 
@@ -159,7 +163,12 @@ class GetstoreCubit extends Cubit<GetstoreState> {
     });
   }
 
-
+  int id=2;
+  void changeId()
+  {
+    id=3;
+    emit(StateBloc());
+  }
 
 
 

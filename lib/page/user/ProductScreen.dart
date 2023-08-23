@@ -18,7 +18,7 @@ class ProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GetproductCubitt()
-        ..getproductcategory(id: 1)
+        ..getproductcategory(id: 2)
         ..getcategoryy(),
       child: BlocConsumer<GetproductCubitt, GetproductStatee>(
         listener: (context, state) {

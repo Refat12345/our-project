@@ -28,100 +28,110 @@ class Cart extends StatelessWidget {
           return ConditionalBuilder(
               condition: CartCubit.get(context).cartModel != null,
               builder: (context) => CartCubit.get(context).cartModel!.message !=
-                      null
+                  null
                   ? Scaffold(
-                      body: Center(
-                        child: Text(
-                          "سلة التسوق فارغة",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "Cairo",
-                            fontSize: width * 0.01 + height * 0.02,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    )
+                appBar: AppBar(
+                  backgroundColor: green,
+                  centerTitle: true,
+                  title: const Text('سلة التسوق'),
+                  titleTextStyle: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontFamily: "Cairo",
+                      fontSize: width * 0.012 + height * 0.02,
+                      color: Colors.white),
+                ),
+                body: Center(
+                  child: Text(
+                    "سلة التسوق فارغة",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontFamily: "Cairo",
+                      fontSize: width * 0.01 + height * 0.02,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              )
                   : Scaffold(
-                      bottomNavigationBar: getBottom(width, height, context,
-                          CartCubit.get(context).cartModel!),
-                      appBar: AppBar(
-                        iconTheme: IconThemeData(
-                            color: Colors.white, size: width / 15),
-                        backgroundColor: green,
-                        elevation: 0,
-                        title: const Text("سلة التسوق"),
-                        actions: [
-                          ConditionalBuilder(
-                              condition: state is! ClearCartLoadingState,
-                              builder: (context) => IconButton(
-                                  onPressed: () {
-                                    CartCubit.get(context).clearCart();
-                                  },
-                                  icon: const Icon(Icons.delete_outline)),
-                              fallback: (context) => const Center(
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Colors.white),
-                                    ),
-                                  ))
-                        ],
-                        centerTitle: true,
-                        titleTextStyle: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "Cairo",
-                            fontSize: width * 0.012 + height * 0.02,
-                            color: Colors.white),
-                      ),
-                      body: CartCubit.get(context)
+                  bottomNavigationBar: getBottom(width, height, context,
+                      CartCubit.get(context).cartModel!),
+                  appBar: AppBar(
+                    iconTheme: IconThemeData(
+                        color: Colors.white, size: width / 15),
+                    backgroundColor: green,
+                    elevation: 0,
+                    title: const Text("سلة التسوق"),
+                    actions: [
+                      ConditionalBuilder(
+                          condition: state is! ClearCartLoadingState,
+                          builder: (context) => IconButton(
+                              onPressed: () {
+                                CartCubit.get(context).clearCart();
+                              },
+                              icon: const Icon(Icons.delete_outline)),
+                          fallback: (context) => const Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white),
+                            ),
+                          ))
+                    ],
+                    centerTitle: true,
+                    titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontFamily: "Cairo",
+                        fontSize: width * 0.012 + height * 0.02,
+                        color: Colors.white),
+                  ),
+                  body: CartCubit.get(context)
+                      .cartModel!
+                      .cartItems!
+                      .length !=
+                      0
+                      ? LayoutBuilder(
+                      builder: (context2, constrain) => Padding(
+                          padding: EdgeInsets.only(top: height / 100),
+                          child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context1, index) =>
+                                  ProductCart(
+                                      constrain.maxHeight,
+                                      constrain.maxWidth,
+                                      CartCubit.get(context)
+                                          .cartModel!
+                                          .cartItems![index],
+                                      context,
+                                      CartCubit.get(context).cartModel!,
+                                      state),
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(
+                                    height: constrain.maxHeight / 40,
+                                  ),
+                              itemCount: CartCubit.get(context)
                                   .cartModel!
                                   .cartItems!
-                                  .length !=
-                              0
-                          ? LayoutBuilder(
-                              builder: (context2, constrain) => Padding(
-                                  padding: EdgeInsets.only(top: height / 100),
-                                  child: ListView.separated(
-                                      physics: const BouncingScrollPhysics(),
-                                      itemBuilder: (context1, index) =>
-                                          ProductCart(
-                                              constrain.maxHeight,
-                                              constrain.maxWidth,
-                                              CartCubit.get(context)
-                                                  .cartModel!
-                                                  .cartItems![index],
-                                              context,
-                                              CartCubit.get(context).cartModel!,
-                                              state),
-                                      separatorBuilder: (context, index) =>
-                                          SizedBox(
-                                            height: constrain.maxHeight / 40,
-                                          ),
-                                      itemCount: CartCubit.get(context)
-                                          .cartModel!
-                                          .cartItems!
-                                          .length)))
-                          : Center(
-                              child: Text(
-                                "سلة التسوق فارغة",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontFamily: "Cairo",
-                                    fontSize: width * 0.01 + height * 0.02,
-                                    color: Colors.black),
-                              ),
-                            )),
-              fallback: (context) => const DecoratedBox(
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(green),
-                      ),
+                                  .length)))
+                      : Center(
+                    child: Text(
+                      "سلة التسوق فارغة",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontFamily: "Cairo",
+                          fontSize: width * 0.01 + height * 0.02,
+                          color: Colors.black),
                     ),
-                  ));
+                  )),
+              fallback: (context) => const DecoratedBox(
+                decoration: BoxDecoration(color: Colors.white),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(green),
+                  ),
+                ),
+              ));
         }, listener: (context, state) {
           if (state is ConfirmCartSuccessState) {
-           flutterToastt(state.message, "type", height, "gravity");
+            flutterToastt(state.message, "type", height, "gravity");
           }
         }));
   }
@@ -143,41 +153,41 @@ class Cart extends StatelessWidget {
           children: [
             cartModel.cartItems!.length == 0
                 ? Row(
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      Text(
-                        ' : قيمة التوصيل',
-                        style: TextStyle(
-                            fontFamily: "Cairo",
-                            fontSize: height * 0.016 + width * 0.016),
-                      ),
-                      Text(
-                        "0",
-                        style: TextStyle(
-                            color: green,
-                            fontSize: height * 0.011 + width * 0.02,
-                            fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  )
+              textDirection: TextDirection.rtl,
+              children: [
+                Text(
+                  ' : قيمة التوصيل',
+                  style: TextStyle(
+                      fontFamily: "Cairo",
+                      fontSize: height * 0.016 + width * 0.016),
+                ),
+                Text(
+                  "0",
+                  style: TextStyle(
+                      color: green,
+                      fontSize: height * 0.011 + width * 0.02,
+                      fontWeight: FontWeight.w600),
+                )
+              ],
+            )
                 : Row(
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      Text(
-                        ' : قيمة التوصيل',
-                        style: TextStyle(
-                            fontFamily: "Cairo",
-                            fontSize: height * 0.016 + width * 0.016),
-                      ),
-                      Text(
-                        "${cartModel.deliveryValue}",
-                        style: TextStyle(
-                            color: green,
-                            fontSize: height * 0.011 + width * 0.02,
-                            fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  ),
+              textDirection: TextDirection.rtl,
+              children: [
+                Text(
+                  ' : قيمة التوصيل',
+                  style: TextStyle(
+                      fontFamily: "Cairo",
+                      fontSize: height * 0.016 + width * 0.016),
+                ),
+                Text(
+                  "${cartModel.deliveryValue}",
+                  style: TextStyle(
+                      color: green,
+                      fontSize: height * 0.011 + width * 0.02,
+                      fontWeight: FontWeight.w600),
+                )
+              ],
+            ),
             Row(
               textDirection: TextDirection.rtl,
               children: [
@@ -213,7 +223,7 @@ class Cart extends StatelessWidget {
                                     SizedBox(
                                       width: width / 10,
                                     ),
-                                     ConfirmCartWithDifferentLocation('type')
+                                    ConfirmCartWithDifferentLocation('type')
                                   ],
                                 )
                               ],
@@ -244,7 +254,7 @@ class Cart extends StatelessWidget {
                     Text(
                       ' اجمالي الفاتورة:',
                       style:
-                          TextStyle(fontFamily: "Cairo", fontSize: width / 25),
+                      TextStyle(fontFamily: "Cairo", fontSize: width / 25),
                       textDirection: TextDirection.rtl,
                     ),
                     SizedBox(
@@ -252,21 +262,21 @@ class Cart extends StatelessWidget {
                     ),
                     cartModel.cartItems!.length == 0
                         ? Text(
-                            '0',
-                            style: TextStyle(
-                                color: green,
-                                fontSize: width / 27,
-                                fontWeight: FontWeight.w900),
-                            textDirection: TextDirection.rtl,
-                          )
+                      '0',
+                      style: TextStyle(
+                          color: green,
+                          fontSize: width / 27,
+                          fontWeight: FontWeight.w900),
+                      textDirection: TextDirection.rtl,
+                    )
                         : Text(
-                            '${cartModel.total} ل.س ',
-                            style: TextStyle(
-                                color: green,
-                                fontSize: width / 27,
-                                fontWeight: FontWeight.w900),
-                            textDirection: TextDirection.rtl,
-                          )
+                      '${cartModel.total} ل.س ',
+                      style: TextStyle(
+                          color: green,
+                          fontSize: width / 27,
+                          fontWeight: FontWeight.w900),
+                      textDirection: TextDirection.rtl,
+                    )
                   ],
                 )
               ],

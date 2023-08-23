@@ -33,7 +33,7 @@ class CartCubit extends Cubit<CartState> {
   Future confirmCart() async{
 
     emit(ConfirmCartLoadingState());
-   await HttpHelper.putData(url: 'confirmsCart', data: {'notes': "not found"})
+    await HttpHelper.putData(url: 'confirmsCart', data: {'notes': "not found"})
         .then((value) {
       var response = jsonDecode(value.body);
       String message = response['message'];
@@ -44,11 +44,11 @@ class CartCubit extends Cubit<CartState> {
       print(onError.toString());
     });
   }
-int id1=0;
+  int id1=0;
   Future deleteProductFromCart({required id})async {
- id1=id;
+    id1=id;
     emit(DeleteProductLoadingState());
-   await HttpHelper.deleteData(
+    await HttpHelper.deleteData(
         url: 'removeProductFromCart', data: {'product_id': "$id"}).then((value) {
       if (value.statusCode == 200) {
         cartModel!.cartItems!.removeWhere((element) => element.productId==id);
@@ -63,11 +63,13 @@ int id1=0;
 
 
   Future clearCart()async {
+
+    String id=CacheHelper.getData(key: "id").toString();
     emit(ClearCartLoadingState());
     await HttpHelper.deleteData(
         url: 'clearCart',
         data: {
-     'customer_id':CacheHelper.getData(key: "id")}
+          'customer_id':id}
     ).then((value) {
       cartModel!.cartItems!.length=0;
       emit(ClearCartSuccessState());
@@ -81,14 +83,14 @@ int id1=0;
 
   Future updateProductQuantityInCart({required id,required quantity})async {
     emit(UpdateQuantityLoadingState());
-   await HttpHelper.postData(
+    await HttpHelper.postData(
         url: 'updateProductQuantityInCart',
         data: {'product_id': "$id", 'quantity': "$quantity"}).then((value) {
       emit(UpdateQuantitySuccessState());
     }).catchError((onError) {
       print(onError.toString());
       emit(UpdateQuantityErrorState());
-   });
+    });
   }
 
 
@@ -117,14 +119,14 @@ int id1=0;
       }
     }else
     {
-     if(cartItems.quantity!>1)
-     {
-       cartItems.quantity=cartItems.quantity!-1;
-       double productPrice=double.parse(cartItems.productPrice!);
-       cartModel.totalPrice=cartModel.totalPrice!-productPrice;
-       cartModel.total=cartModel.total!-productPrice;
-       emit(Success());
-     }
+      if(cartItems.quantity!>1)
+      {
+        cartItems.quantity=cartItems.quantity!-1;
+        double productPrice=double.parse(cartItems.productPrice!);
+        cartModel.totalPrice=cartModel.totalPrice!-productPrice;
+        cartModel.total=cartModel.total!-productPrice;
+        emit(Success());
+      }
     }
   }
 
